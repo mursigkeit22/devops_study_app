@@ -40,6 +40,12 @@ pipeline {
                 archiveArtifacts(artifacts: 'backend/target/sausage-store-0.0.1-SNAPSHOT.jar')
                 archiveArtifacts(artifacts: 'frontend/dist/frontend/*')
             }
+            post{
+			    success {
+				    sh '''curl -X POST -H 'Content-type: application/json' --data '{"text":"Валерия Шелгунова собрала приложение."}' https://hooks.slack.com/services/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 '''
+
+				}
+			}
         }
     }
 }
