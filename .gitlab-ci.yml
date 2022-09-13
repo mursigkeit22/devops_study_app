@@ -15,7 +15,7 @@ build-backend-code-job:
   artifacts:
     paths:
       - sausage-store-backend-0.0.1/sausage-store-0.0.1.jar
-      expire_in: 1 week
+    expire_in: 1 week
 
 build-frontend-code-job:
   stage: build  
@@ -32,4 +32,4 @@ build-frontend-code-job:
   artifacts:
     paths:
       - sausage-store-frontend-0.0.1/public_html
-      expire_in: 1 week
+    expire_in: 1 week
