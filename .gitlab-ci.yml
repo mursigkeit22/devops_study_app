@@ -1,5 +1,6 @@
 stages:
   - build
+  - notify
 
 build-backend-code-job:
   stage: build  
@@ -27,3 +28,14 @@ build-frontend-code-job:
     paths:
       - frontend/dist/frontend
     expire_in: 1 week
+
+slack-notification-backend:
+  stage: notify
+  only:
+    changes:
+    - backend/*
+  script:
+    - echo ${CI_PROJECT_URL}
+    - echo ${CI_COMMIT_REF_NAME}
+  needs:
+    - build-backend-code-job    
