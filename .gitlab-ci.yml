@@ -9,9 +9,11 @@ build-backend-code-job:
   script:
     - cd backend
     - mvn package
+    - mkdir sausage-store-backend-0.0.1
+    - cp backend/target/sausage-store-0.0.1-SNAPSHOT.jar sausage-store-backend-0.0.1/sausage-store-0.0.1.jar
   artifacts:
     paths:
-      - backend/target/sausage-store-0.0.1-SNAPSHOT.jar
+      - sausage-store-backend-0.0.1/sausage-store-0.0.1.jar
 
 build-frontend-code-job:
   stage: build  
@@ -22,6 +24,8 @@ build-frontend-code-job:
     - cd frontend
     - npm install
     - npm run build
+    - mkdir sausage-store-frontend-0.0.1
+    - cp -r frontend/dist/frontend sausage-store-frontend-0.0.1/public_html
   artifacts:
     paths:
-      - frontend/dist/frontend
+      - sausage-store-frontend-0.0.1/public_html
