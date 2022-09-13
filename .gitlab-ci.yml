@@ -9,12 +9,9 @@ build-backend-code-job:
   script:
     - cd backend
     - mvn package
-    - cd ..
-    - mkdir sausage-store-backend-0.0.1
-    - cp backend/target/sausage-store-0.0.1-SNAPSHOT.jar sausage-store-backend-0.0.1/sausage-store-0.0.1.jar
   artifacts:
     paths:
-      - sausage-store-backend-0.0.1/sausage-store-0.0.1.jar
+      - backend/target/sausage-store-0.0.1-SNAPSHOT.jar
     expire_in: 1 week
 
 build-frontend-code-job:
@@ -26,10 +23,7 @@ build-frontend-code-job:
     - cd frontend
     - npm install
     - npm run build
-    - cd ..
-    - mkdir sausage-store-frontend-0.0.1
-    - cp -r frontend/dist/frontend sausage-store-frontend-0.0.1/public_html
   artifacts:
     paths:
-      - sausage-store-frontend-0.0.1/public_html
+      - frontend/dist/frontend
     expire_in: 1 week
