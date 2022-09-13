@@ -1,27 +1,19 @@
 stages:
   - build
 
-build-backend-code-job:
-  stage: build  
-  only:
-    changes:
-    - backend/*
-  script:
+build-code-job:  # задача с именем build-code-job
+  stage: build   # этап build
+  script:        # объявление скрипта
     - cd backend
-    - mvn package
-  artifacts:
+    - mvn package  # запуск сборки кода
+    - cd ../frontend
+    - npm install # загрузка всех сторонних зависимостей
+    - npm run build # запуск сборки кода
+    - cd ..
+    - mkdir sausage-store-0.0.1  # создание директории, в которую копируются артефакты. Это нужно для организации удобной структуры архива
+    - cp backend/target/sausage-store-0.0.1-SNAPSHOT.jar sausage-store-0.0.1/sausage-store-0.0.1.jar # копирование собранного бэкенда
+    - cp -r frontend/dist/frontend sausage-store-0.0.1/public_html # копирование собранного фронтенда
+  artifacts: # блок, отвечающий за сохранение файлов как артефактов в Gitlab
     paths:
-      - backend/target/sausage-store-0.0.1-SNAPSHOT.jar
-
-build-frontend-code-job:
-  stage: build  
-  only:
-    changes:
-    - frontend/*
-  script:        
-    - cd frontend
-    - npm install
-    - npm run build
-  artifacts:
-    paths:
-      - frontend/dist/frontend
+      - sausage-store-0.0.1/public_html  # сохранение собранного фронтенда как артефакта
+      - sausage-store-0.0.1/sausage-store-0.0.1.jar # сохранение собранного бэкенда как артефакта
