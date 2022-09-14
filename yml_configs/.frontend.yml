@@ -8,6 +8,7 @@ build-frontend-code-job:
     - npm install
     - npm run build
   artifacts:
+    name: "$CI_JOB_NAME"
     paths:
       - frontend/dist/frontend
     expire_in: 1 week
