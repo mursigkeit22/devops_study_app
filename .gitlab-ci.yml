@@ -13,6 +13,13 @@ build-frontend-code-job:
     - cd frontend
     - npm install
     - npm run build
+    - |
+      curl 
+      --request POST 
+      --header "Content-type: application/json" 
+      --data '{"text":${CI_COMMIT_REF_NAME}}' 
+      https://hooks.slack.com/services/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 
+    
   artifacts:
     paths:
       - frontend/dist/frontend
