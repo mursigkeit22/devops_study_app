@@ -21,31 +21,7 @@ slack-notification-backend:
       curl 
       --request POST 
       --header "Content-type: application/json" 
-      --data '{
-	"blocks": [
-		{
-			"type": "section",
-			"text": {
-				"type": "mrkdwn",
-				"text": "Собрана новая версия backend"
-			}
-		},
-		{
-			"type": "actions",
-			"elements": [
-				{
-					"type": "button",
-					"text": {
-						"type": "plain_text",
-						"text": "Скачать"
-					},
-					"style": "danger",
-					"url": "'${CI_PROJECT_URL}'/-/jobs/artifacts/'${CI_COMMIT_REF_NAME}'/download?job=build-backend-code-job" 
-				}
-			]
-		}
-	]
-}'
+      --data '{"blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Собрана новая версия backend"}},{"type": "actions","elements": [{"type": "button","text": {"type": "plain_text","text": "Скачать"},"style": "danger","url":"'${CI_PROJECT_URL}'/-/jobs/artifacts/'${CI_COMMIT_REF_NAME}'/download?job=build-backend-code-job"}]}]}'
       --url "https://hooks.slack.com/services/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"
       
   needs:
