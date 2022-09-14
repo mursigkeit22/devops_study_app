@@ -1,5 +1,4 @@
-include:
-  local: 'yml_configs/**.yml'
+
 stages:
   - build
   - notify
@@ -18,7 +17,7 @@ build-frontend-code-job:
       --request POST 
       --header "Content-type: application/json" 
       --data '{"text":${CI_COMMIT_REF_NAME}}' 
-      https://hooks.slack.com/services/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 
+      --url "https://hooks.slack.com/services/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"
     
   artifacts:
     paths:
