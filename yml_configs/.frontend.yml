@@ -16,7 +16,10 @@ slack-notification-frontend:
   stage: notify
   only:
     changes:
-    - backend/*
+    - frontend/*
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /send notification/ 
+
   script:
     - >
       curl 
