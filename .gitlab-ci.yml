@@ -3,17 +3,5 @@ include:
 stages:
   - build
   - notify
-build-frontend-code-job:
-  stage: build  
-  only:
-    changes:
-    - frontend/*
-  script:        
-    - cd frontend
-    - npm install
-    - npm run build
-  artifacts:
-    paths:
-      - frontend/dist/frontend
-    expire_in: 1 week
+
 
