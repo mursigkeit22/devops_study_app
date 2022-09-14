@@ -16,6 +16,8 @@ slack-notification-backend:
   only:
     changes:
     - backend/*
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /send notification/  
   script:
     - >
       curl 
