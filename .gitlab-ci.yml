@@ -1,0 +1,8 @@
+include:
+  local: 'yml_configs/**.yml'
+stages:
+  - build
+  - notify
+  
+
+
