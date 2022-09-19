@@ -19,6 +19,8 @@ sast:
   rules:
     - changes:
       - frontend/*
+  variables:
+    SAST_EXCLUDED_ANALYZERS: "spotbugs"
   needs:
     - build-frontend-code-job
     
