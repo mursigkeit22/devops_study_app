@@ -14,11 +14,11 @@ build-frontend-code-job:
       - frontend/dist/frontend
     expire_in: 1 week
 sast:
-  only:
-    changes:
-    - frontend/*
+  
   variables:
     SAST_EXCLUDED_ANALYZERS: "spotbugs"
+  needs:
+    - build-frontend-code-job
 include:
   - template: Security/SAST.gitlab-ci.yml
 slack-notification-frontend:
