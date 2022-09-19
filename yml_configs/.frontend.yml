@@ -15,7 +15,7 @@ build-frontend-code-job:
     expire_in: 1 week
 sast:
   rules:
-    - changes:
+    changes:
       - frontend/*
   variables:
     SAST_EXCLUDED_ANALYZERS: "spotbugs"
