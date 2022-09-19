@@ -19,7 +19,6 @@ test-frontend:
   rules:
     - changes:
       - frontend/*
-  script: echo "frontend test"
   needs:
     - build-frontend-code-job
     
