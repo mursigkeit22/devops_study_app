@@ -1,9 +1,29 @@
 include:
   - local: 'yml_configs/**.yml'
+  - template: Security/SAST.gitlab-ci.yml
 stages:
   - build
   - test
   - notify
+spotbugs-sast:
+  dependencies:
+    - build-backend-code-job
+  rules:
+    - changes:
+      - backend/*
+eslint-sast:
+  rules:
+    - changes:
+      - frontend/*
+nodejs-scan-sast:
+  rules:
+    - changes:
+      - frontend/*
+semgrep-sast:
+  rules:
+    - changes:
+      - frontend/* 
+      - backend/* 
 
 
     
