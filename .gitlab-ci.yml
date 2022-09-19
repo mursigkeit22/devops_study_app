@@ -2,7 +2,6 @@ include:
   - local: 'yml_configs/.frontend.yml'
 stages:
   - build
-  - test
   - notify
 
     
