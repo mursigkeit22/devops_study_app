@@ -18,6 +18,7 @@ build-frontend-code-job:
       - frontend/dist/frontend
     expire_in: 1 week
 sast:
+  stage: test
   rules:
     - changes:
       - frontend/*
