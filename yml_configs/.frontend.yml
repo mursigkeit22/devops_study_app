@@ -1,3 +1,8 @@
+stages:
+  - test
+include:
+  - template: Security/SAST.gitlab-ci.yml
+  
 build-frontend-code-job:
   stage: build  
   only:
@@ -13,8 +18,6 @@ build-frontend-code-job:
       - frontend/dist/frontend
     expire_in: 1 week
 test-frontend:
-  include:
-  - template: Security/SAST.gitlab-ci.yml
   stage: test
   rules:
     - changes:
