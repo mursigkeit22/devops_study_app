@@ -11,6 +11,19 @@ build-backend-code-job:
     paths:
       - backend/target/sausage-store-0.0.1-SNAPSHOT.jar
     expire_in: 1 week
+sonarqube-backend-sast:
+  stage: test
+  only:
+    changes:
+    - backend/*
+  image: maven:3.8-openjdk-16 
+  script:
+    - cd backend
+    - >
+      mvn verify sonar:sonar -Dsonar.qualitygate.wait=true
+      -Dsonar.projectKey=${SONAR_PROJECT_KEY}
+      -Dsonar.host.url=${SONARQUBE_URL}
+      -Dsonar.login=${SONAR_LOGIN} 
 slack-notification-backend:
   stage: notify
   only:
