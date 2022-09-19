@@ -17,7 +17,7 @@ sast:
   stage: test
   rules:
     - changes:
-    - frontend/*  
+      - frontend/*  
   variables:
     SAST_EXCLUDED_ANALYZERS: "spotbugs"
  
