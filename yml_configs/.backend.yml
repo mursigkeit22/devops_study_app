@@ -20,7 +20,7 @@ sast:
     - when: never
   stage: test
   variables:
-      SAST_EXCLUDED_ANALYZERS: "eslint", "nodejs-scan"
+      SAST_EXCLUDED_ANALYZERS: eslint, nodejs-scan
 slack-notification-backend:
   stage: notify
   only:
