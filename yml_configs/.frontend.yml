@@ -12,7 +12,14 @@ build-frontend-code-job:
     paths:
       - frontend/dist/frontend
     expire_in: 1 week
-
+test-frontend:
+  stage: test
+  rules:
+    - changes:
+      - frontend/*
+  variables:
+    SAST_EXCLUDED_ANALYZERS: "spotbugs"
+    
 slack-notification-frontend:
   stage: notify
   only:
