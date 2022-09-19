@@ -13,14 +13,6 @@ build-backend-code-job:
     paths:
       - backend/target/sausage-store-0.0.1-SNAPSHOT.jar
     expire_in: 1 week
-sast:
-  dependencies:
-    - build-backend-code-job
-  rules:
-    - when: never
-  stage: test
-  variables:
-      SAST_EXCLUDED_ANALYZERS: eslint, nodejs-scan
 slack-notification-backend:
   stage: notify
   only:
