@@ -15,13 +15,13 @@ build-frontend-code-job:
       - frontend/dist/frontend
     expire_in: 1 week
 sast:
+  dependencies:
+    - build-frontend-code-job
   stage: test
   rules:
     - when: never
   variables:
     SAST_EXCLUDED_ANALYZERS: "spotbugs"
-  needs:
-    - build-frontend-code-job
 
 slack-notification-frontend:
   stage: notify
