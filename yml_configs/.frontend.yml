@@ -1,4 +1,5 @@
-  
+include:
+  - template: Security/SAST.gitlab-ci.yml
 build-frontend-code-job:
   stage: build  
   only:
@@ -22,9 +23,6 @@ sast:
   needs:
     - build-frontend-code-job
 
- 
-include:
-  - template: Security/SAST.gitlab-ci.yml
 slack-notification-frontend:
   stage: notify
   only:
