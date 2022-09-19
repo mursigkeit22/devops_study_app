@@ -1,3 +1,5 @@
+include:
+  - template: Security/SAST.gitlab-ci.yml
 build-backend-code-job:
   stage: build  
   only:
@@ -14,6 +16,8 @@ build-backend-code-job:
 sast:
   dependencies:
     - build-backend-code-job
+  rules:
+    - when: never
   stage: test
   variables:
       SAST_EXCLUDED_ANALYZERS: "eslint", "nodejs-scan"
