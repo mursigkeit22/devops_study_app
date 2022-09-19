@@ -19,6 +19,8 @@ test-frontend:
       - frontend/*
   variables:
     SAST_EXCLUDED_ANALYZERS: "spotbugs"
+  needs:
+    - build-frontend-code-job
     
 slack-notification-frontend:
   stage: notify
