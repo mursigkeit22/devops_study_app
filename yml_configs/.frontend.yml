@@ -16,10 +16,12 @@ build-frontend-code-job:
 sast:
   stage: test
   rules:
-    - changes:
-      - frontend/*  
+    - when: never
   variables:
     SAST_EXCLUDED_ANALYZERS: "spotbugs"
+  needs:
+    - build-frontend-code-job
+
  
 include:
   - template: Security/SAST.gitlab-ci.yml
