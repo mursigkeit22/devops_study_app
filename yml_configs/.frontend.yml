@@ -18,9 +18,7 @@ sonarqube-frontend-sast:
   only:
     changes:
     - frontend/*
-  image: 
-    name: sonarsource/sonar-scanner-cli:latest
-    entrypoint: [""] 
+  image: sonarsource/sonar-scanner-cli:latest
   script:
     - cd frontend
     - >
