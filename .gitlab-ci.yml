@@ -1,6 +1,6 @@
 include:
   - local: 'yml_configs/.frontend.yml'
-  - template: Security/SAST.gitlab-ci.yml
+  # - template: Security/SAST.gitlab-ci.yml
 stages:
   - build
   - test
@@ -15,19 +15,19 @@ stages:
 #   rules:
 #     - changes:
 #       - backend/*
-eslint-sast:
-  rules:
-    - changes:
-      - frontend/*
-nodejs-scan-sast:
-  rules:
-    - changes:
-      - frontend/*
-semgrep-sast:
-  rules:
-    - changes:
-      - frontend/* 
-      - backend/* 
+# eslint-sast:
+#   rules:
+#     - changes:
+#       - frontend/*
+# nodejs-scan-sast:
+#   rules:
+#     - changes:
+#       - frontend/*
+# semgrep-sast:
+#   rules:
+#     - changes:
+#       - frontend/* 
+#       - backend/* 
 
 
     
