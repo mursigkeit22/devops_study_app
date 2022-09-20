@@ -15,9 +15,9 @@ build-frontend-code-job:
 
 sonarqube-frontend-sast:
   stage: test
-  only:
-    changes:
-    - frontend/*
+  rules:
+    - changes:
+      - frontend/*
   image: sonarsource/sonar-scanner-cli:latest
   script:
     - cd frontend
@@ -30,12 +30,10 @@ sonarqube-frontend-sast:
 
 slack-notification-frontend:
   stage: notify
-  only:
+  rules:
+    -if: $CI_COMMIT_MESSAGE =~ /send notification/
     changes:
-    - frontend/*
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /send notification/ 
-
+      - frontend/*
   script:
     - >
       curl 
