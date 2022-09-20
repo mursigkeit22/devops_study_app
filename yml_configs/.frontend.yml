@@ -20,6 +20,12 @@ sonarqube-frontend-sast:
       - frontend/*
   image: sonarsource/sonar-scanner-cli:latest
   script:
+    - echo 'VARIABLES:'
+    - echo $GITLAB_USER_NAME
+    - echo $GITLAB_USER_LOGIN
+    - echo '09_${GITLAB_USER_NAME}_FRONTEND'
+    - echo $CI_JOB_NAME
+
     - cd frontend
     - >
       sonar-scanner -Dsonar.qualitygate.wait=true
