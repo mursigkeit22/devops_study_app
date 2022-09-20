@@ -31,7 +31,7 @@ sonarqube-frontend-sast:
 slack-notification-frontend:
   stage: notify
   rules:
-    -if: $CI_COMMIT_MESSAGE =~ /send notification/
+    - if: $CI_COMMIT_MESSAGE =~ /send notification/
     changes:
       - frontend/*
   script:
