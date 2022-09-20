@@ -23,11 +23,18 @@ sonarqube-frontend-sast:
     - cd frontend
     - >
       sonar-scanner -Dsonar.qualitygate.wait=true
-      -Dsonar.projectName="09_${GITLAB_USER_NAME}_FRONTEND"
-      -Dsonar.projectKey=${SONAR_PROJECT_KEY_FRONTEND}
+      -Dsonar.projectName="needs to be deleted"
+      -Dsonar.projectKey=sonar1302:sonar1302
       -Dsonar.sources=.
       -Dsonar.host.url=${SONARQUBE_URL}
-      -Dsonar.login=${SONAR_LOGIN_FRONTEND} 
+      -Dsonar.login=ae08d8483e1f972f73b313d9bdd611fa4428b24f
+    # - >
+    #   sonar-scanner -Dsonar.qualitygate.wait=true
+    #   -Dsonar.projectName="09_${GITLAB_USER_NAME}_FRONTEND"
+    #   -Dsonar.projectKey=${SONAR_PROJECT_KEY_FRONTEND}
+    #   -Dsonar.sources=.
+    #   -Dsonar.host.url=${SONARQUBE_URL}
+    #   -Dsonar.login=${SONAR_LOGIN_FRONTEND} 
 
 slack-notification-frontend:
   stage: notify
