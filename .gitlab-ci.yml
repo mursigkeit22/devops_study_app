@@ -6,12 +6,12 @@ stages:
   - test
   - notify
 spotbugs-sast:
+  dependencies:
+    - build-backend-code-job
   variables:
     SAST_JAVA_VERSION: 11
     COMPILE: "false"
     MAVEN_REPO_PATH: $CI_PROJECT_DIR
-  needs:
-    - build-backend-code-job  
   rules:
     - changes:
       - backend/*
