@@ -4,8 +4,8 @@ include:
   #- local: 'yml_configs/.sast.yml'
   #- template: Security/SAST.gitlab-ci.yml
 stages:
-  #- build
-  #- test
+  - build
+  - test
   - notify
 
 
