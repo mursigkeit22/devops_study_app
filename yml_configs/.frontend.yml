@@ -51,6 +51,6 @@ slack-notification-frontend:
       --url "https://ch.cargoonline.ru/hooks/628dfc6d6dc4f90009fb8654/diQuoKGKYkDPnuLm4EnWLBLxNBjdsbBvwoir8Yaoc4h2bNFE"
     
 
-  needs:
-    - build-frontend-code-job   
+  #needs:
+  #  - build-frontend-code-job   
 
