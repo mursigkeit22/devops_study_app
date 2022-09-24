@@ -1,9 +1,9 @@
 include:
   - local: 'yml_configs/**.yml'
-  - template: Security/SAST.gitlab-ci.yml
+  #- template: Security/SAST.gitlab-ci.yml
 stages:
-  - build
-  - test
+  #- build
+  #- test
   - notify
 spotbugs-sast:
   dependencies:
