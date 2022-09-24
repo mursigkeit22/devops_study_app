@@ -44,6 +44,6 @@ slack-notification-backend:
       "url":"'${CI_PROJECT_URL}'/-/jobs/artifacts/'${CI_COMMIT_REF_NAME}'/download?job=build-backend-code-job"}]}]}'
       --url "https://ch.cargoonline.ru/hooks/628dfc6d6dc4f90009fb8654/diQuoKGKYkDPnuLm4EnWLBLxNBjdsbBvwoir8Yaoc4h2bNFE"
       
-  needs:
-    - build-backend-code-job   
+  #needs:
+  #  - build-backend-code-job   
 
