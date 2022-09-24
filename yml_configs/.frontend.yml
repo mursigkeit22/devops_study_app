@@ -23,7 +23,7 @@ sonarqube-frontend-sast:
     - cd frontend
     - >
       sonar-scanner -Dsonar.qualitygate.wait=true
-      -Dsonar.projectName="09_${GITLAB_USER_NAME}_FRONTEND"
+      -Dsonar.projectName="needs_to_be_deleted"
       -Dsonar.projectKey=${SONAR_PROJECT_KEY_FRONTEND}
       -Dsonar.sources=.
       -Dsonar.host.url=${SONARQUBE_URL}
@@ -36,6 +36,8 @@ slack-notification-frontend:
       changes:
         - frontend/*
   script:
+    - |-
+
     - >
       curl 
       --request POST 
@@ -46,7 +48,8 @@ slack-notification-frontend:
       {"type": "section","text": {"type": "mrkdwn","text": "Собрана новая версия frontend"}},
       {"type": "actions","elements": [{"type": "button","text": {"type":"plain_text","text":"Скачать"},"style":"danger",
       "url":"'${CI_PROJECT_URL}'/-/jobs/artifacts/'${CI_COMMIT_REF_NAME}'/download?job=build-frontend-code-job"}]}]}'
-      --url "https://hooks.slack.com/services/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"
+      --url "https://ch.cargoonline.ru/hooks/628dfc6d6dc4f90009fb8654/diQuoKGKYkDPnuLm4EnWLBLxNBjdsbBvwoir8Yaoc4h2bNFE"
+    
 
   needs:
     - build-frontend-code-job   
