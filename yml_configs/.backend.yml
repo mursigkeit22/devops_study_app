@@ -20,7 +20,7 @@ build-backend-code-job:
     expire_in: 1 week
 slack-notification-backend:
   extends:
-    - notification
+    - .notification
   variables:
     JOB_NAME: "$JOB_NAME"
     JOB_ID: "$JOB_ID"
