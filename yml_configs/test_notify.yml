@@ -5,7 +5,7 @@ slack-notification-backend:
   #    changes:
   #      - backend/*
   script:
-    - |-
+    - >
         DATA='
       {"blocks":
       [
