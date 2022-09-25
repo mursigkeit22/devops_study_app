@@ -21,10 +21,10 @@ sonarqube-backend-sast:
     - cd backend
     - >
         mvn verify sonar:sonar -Dsonar.qualitygate.wait=true
-      -Dsonar.projectName="09_${GITLAB_USER_NAME}_BACKEND"
-      -Dsonar.projectKey=${SONAR_PROJECT_KEY_BACKEND}
-      -Dsonar.host.url=${SONARQUBE_URL}
-      -Dsonar.login=${SONAR_LOGIN_BACKEND}
+        -Dsonar.projectName="09_${GITLAB_USER_NAME}_BACKEND"
+        -Dsonar.projectKey=${SONAR_PROJECT_KEY_BACKEND}
+        -Dsonar.host.url=${SONARQUBE_URL}
+        -Dsonar.login=${SONAR_LOGIN_BACKEND}
 
 	  
 sonarqube-frontend-sast:
@@ -36,12 +36,12 @@ sonarqube-frontend-sast:
   script:
     - cd frontend
     - >
-       sonar-scanner -Dsonar.qualitygate.wait=true
-      -Dsonar.projectName="09_${GITLAB_USER_NAME}_FRONTEND"
-      -Dsonar.projectKey=${SONAR_PROJECT_KEY_FRONTEND}
-      -Dsonar.sources=.
-      -Dsonar.host.url=${SONARQUBE_URL}
-      -Dsonar.login=${SONAR_LOGIN_FRONTEND} 
+        sonar-scanner -Dsonar.qualitygate.wait=true
+        -Dsonar.projectName="09_${GITLAB_USER_NAME}_FRONTEND"
+        -Dsonar.projectKey=${SONAR_PROJECT_KEY_FRONTEND}
+        -Dsonar.sources=.
+        -Dsonar.host.url=${SONARQUBE_URL}
+        -Dsonar.login=${SONAR_LOGIN_FRONTEND} 
 
 
 
