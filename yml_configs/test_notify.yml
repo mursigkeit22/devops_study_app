@@ -12,6 +12,6 @@ slack-notification-backend:
       {"type": "section","text": {"type": "mrkdwn","text": "Собрана новая версия backend"}},
       {"type": "actions","elements": [{"type": "button","text": {"type":"plain_text","text":"Скачать"},"style":"danger",
       "url":"'${CI_PROJECT_URL}'/-/jobs/artifacts/'${CI_COMMIT_REF_NAME}'/download?job=build-backend-code-job"}]}]}'
-  - echo "$DATA"
+      - echo "$DATA"
    
 
