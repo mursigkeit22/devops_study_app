@@ -5,8 +5,8 @@ slack-notification-backend:
   #    changes:
   #      - backend/*
   script:
-    - > -
-      DATA='{"blocks":
+    - >-
+        DATA='{"blocks":
       [
       {"type": "section","text": {"type": "mrkdwn","text": "Собрана новая версия backend"}},
       {"type": "actions","elements": [{"type": "button","text": {"type":"plain_text","text":"Скачать"},"style":"danger",
