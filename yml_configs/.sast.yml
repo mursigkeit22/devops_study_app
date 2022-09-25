@@ -1,0 +1,23 @@
+spotbugs-sast:
+  dependencies:
+    - build-backend-code-job
+  variables:
+    SAST_JAVA_VERSION: 11
+    COMPILE: "false"
+    MAVEN_REPO_PATH: $CI_PROJECT_DIR
+  rules:
+    - changes:
+      - backend/*
+eslint-sast:
+  rules:
+    - changes:
+      - frontend/*
+nodejs-scan-sast:
+  rules:
+    - changes:
+      - frontend/*
+semgrep-sast:
+  rules:
+    - changes:
+      - frontend/* 
+      - backend/* 

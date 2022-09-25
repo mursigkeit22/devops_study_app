@@ -1,35 +1,12 @@
 include:
-  - local: 'yml_configs/**.yml'
   - template: Security/SAST.gitlab-ci.yml
+  - local: 'yml_configs/.backend.yml'
+  - local: 'yml_configs/.frontend.yml'
+  - local: 'yml_configs/.notification.yml'
+  - local: 'yml_configs/.sast.yml'
+  - local: 'yml_configs/.sonar.yml'
+  
 stages:
   - build
   - test
   - notify
-spotbugs-sast:
-  dependencies:
-    - build-backend-code-job
-  variables:
-    SAST_JAVA_VERSION: 11
-    COMPILE: "false"
-    MAVEN_REPO_PATH: $CI_PROJECT_DIR
-  rules:
-    - changes:
-      - backend/*
-eslint-sast:
-  rules:
-    - changes:
-      - frontend/*
-nodejs-scan-sast:
-  rules:
-    - changes:
-      - frontend/*
-semgrep-sast:
-  rules:
-    - changes:
-      - frontend/* 
-      - backend/* 
-
-
-    
-
-
