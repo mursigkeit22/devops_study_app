@@ -1,18 +1,16 @@
 .notification:
   stage: notify
   rules:
-    #- if: $CI_COMMIT_MESSAGE =~ /send notification/
-    #changes:
-      #- backend/*
-
+    - if: $CI_COMMIT_MESSAGE =~ /send notification/
   variables:
     JOB_NAME: "undefined"
     JOB_ID: "undefined"
+    TEXT_NOTIF: "undefined"
   script:
     - >
         DATA='{"blocks":
         [
-        {"type": "section","text": {"type": "mrkdwn","text": "Собрана новая версия backend"}},
+        {"type": "section","text": {"type": "mrkdwn","text": "Собрана новая версия '${TEXT_NOTIF}'"}},
         {"type": "actions","elements": [{"type": "button","text": {"type":"plain_text","text":"Скачать"},"style":"danger",
         "url":"'${CI_PROJECT_URL}'/-/jobs/artifacts/'${CI_COMMIT_REF_NAME}'/download?job='${JOB_NAME}'"}]}]}'
         
