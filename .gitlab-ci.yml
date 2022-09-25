@@ -20,7 +20,7 @@ sonarqube-backend-sast:
   script:
     - cd backend
     - >
-       mvn verify sonar:sonar -Dsonar.qualitygate.wait=true
+        mvn verify sonar:sonar -Dsonar.qualitygate.wait=true
       -Dsonar.projectName="09_${GITLAB_USER_NAME}_BACKEND"
       -Dsonar.projectKey=${SONAR_PROJECT_KEY_BACKEND}
       -Dsonar.host.url=${SONARQUBE_URL}
