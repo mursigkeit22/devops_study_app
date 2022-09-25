@@ -18,7 +18,7 @@ slack-notification-backend:
       --request POST 
       --header "Content-type: application/json" 
       --data "$DATA"
-      --url "https://ch.cargoonline.ru/hooks/628dfc6d6dc4f90009fb8654/diQuoKGKYkDPnuLm4EnWLBLxNBjdsbBvwoir8Yaoc4h2bNFE"
+      --url "$NOTIFICATION_URL"
 
 
    
