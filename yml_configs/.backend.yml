@@ -17,7 +17,6 @@ build-backend-code-job:
     expire_in: 1 week
 slack-notification-backend:
   rules:
-    #- if: $CI_COMMIT_MESSAGE =~ /send notification/
     - changes:
       - backend/*
   extends:
@@ -25,6 +24,7 @@ slack-notification-backend:
   variables:
     JOB_NAME: "$JOB_NAME"
     JOB_ID: "$JOB_ID"
+    TEXT_NOTIF: "backend"
   needs:
     - build-backend-code-job   
   
