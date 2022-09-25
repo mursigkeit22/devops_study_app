@@ -6,14 +6,12 @@ slack-notification-backend:
   #      - backend/*
   script:
     - >
-      curl 
-      --request POST 
-      --header "Content-type: application/json" 
-      --data '
+      DATA='
       {"blocks":
       [
       {"type": "section","text": {"type": "mrkdwn","text": "Собрана новая версия backend"}},
       {"type": "actions","elements": [{"type": "button","text": {"type":"plain_text","text":"Скачать"},"style":"danger",
       "url":"'${CI_PROJECT_URL}'/-/jobs/artifacts/'${CI_COMMIT_REF_NAME}'/download?job=build-backend-code-job"}]}]}'
-      --url "https://ch.cargoonline.ru/hooks/628dfc6d6dc4f90009fb8654/diQuoKGKYkDPnuLm4EnWLBLxNBjdsbBvwoir8Yaoc4h2bNFE"
+    - echo "$DATA"
+   
 
