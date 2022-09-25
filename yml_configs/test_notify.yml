@@ -1,9 +1,9 @@
 slack-notification-backend:
   stage: notify
-  #rules:
+  rules:
   #  - if: $CI_COMMIT_MESSAGE =~ /send notification/
-  #    changes:
-  #      - backend/*
+    #changes:
+      #- backend/*
   script:
     - >
         DATA='{"blocks":
@@ -19,6 +19,10 @@ slack-notification-backend:
       --header "Content-type: application/json" 
       --data "$DATA"
       --url "$NOTIFICATION_URL"
+
+  needs:
+    - build-backend-code-job   
+
 
 
    
