@@ -1,4 +1,4 @@
-notification:
+.notification:
   stage: notify
   rules:
     #- if: $CI_COMMIT_MESSAGE =~ /send notification/
