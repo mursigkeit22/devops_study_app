@@ -24,9 +24,7 @@ slack-notification-backend:
   variables:
     JOB_NAME: "$JOB_NAME"
     JOB_ID: "$JOB_ID"
-  needs:
-    - build-backend-code-job   
-
+  
 
 
 
