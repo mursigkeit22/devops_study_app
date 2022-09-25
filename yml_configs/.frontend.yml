@@ -10,7 +10,7 @@ build-frontend-code-job:
     - npm install
     - npm run build
   artifacts:
-    name: "$CI_JOB_NAME"
+    name: "${CI_JOB_NAME}_${CI_JOB_ID}"
     reports:
       dotenv: frontend.env
     paths:
