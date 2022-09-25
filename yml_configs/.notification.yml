@@ -2,10 +2,7 @@
   stage: notify
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /send notification/
-  variables:
-    JOB_NAME: "undefined"
-    JOB_ID: "undefined"
-    TEXT_NOTIF: "undefined"
+ 
   script:
     - >
         DATA='{"blocks":
