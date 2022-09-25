@@ -16,14 +16,11 @@ build-frontend-code-job:
     paths:
       - frontend/dist/frontend
     expire_in: 1 week
-
-
-
 slack-notification-frontend:
   stage: notify
   rules:
     #- if: $CI_COMMIT_MESSAGE =~ /send notification/
-    changes:
+    - changes:
       - frontend/*
   extends:
     - .notification
