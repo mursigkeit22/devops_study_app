@@ -1,11 +1,11 @@
 include:
-  #- local: 'yml_configs/.backend.yml'
+  - local: 'yml_configs/.backend.yml'
   #- local: 'yml_configs/.frontend.yml'
   - local: 'yml_configs/test_notify.yml'
   #- local: 'yml_configs/.sast.yml'
   #- template: Security/SAST.gitlab-ci.yml
 stages:
-  #- build
+  - build
   #- test
   - notify
 
