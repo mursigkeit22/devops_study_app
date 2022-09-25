@@ -16,7 +16,7 @@ build-frontend-code-job:
     paths:
       - frontend/dist/frontend
     expire_in: 1 week
-slack-notification-frontend:
+notification-frontend:
   stage: notify
   rules:
     - changes:
