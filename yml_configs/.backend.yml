@@ -1,3 +1,6 @@
+include:
+  - local: 'yml_configs/.notification.yml'
+
 build-backend-code-job:
   stage: build  
   rules:
