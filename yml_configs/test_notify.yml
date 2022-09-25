@@ -13,6 +13,8 @@ slack-notification-backend:
         "url":"'${CI_PROJECT_URL}'/-/jobs/artifacts/'${CI_COMMIT_REF_NAME}'/download?job=build-backend-code-job"}]}]}'
         
     - echo "$DATA"
+    - echo "$JOB_ID"
+    - echo "$JOB_NAME"
     - >
       curl
       --request POST 
