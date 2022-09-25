@@ -9,7 +9,7 @@
         [
         {"type": "section","text": {"type": "mrkdwn","text": "Собрана новая версия '${TEXT_NOTIF}'"}},
         {"type": "actions","elements": [{"type": "button","text": {"type":"plain_text","text":"Скачать"},"style":"danger",
-        "url":"'${CI_PROJECT_URL}'/-/jobs/artifacts/'${CI_COMMIT_REF_NAME}'/download?job='${JOB_NAME}'"}]}]}'
+        "url":"'${CI_PROJECT_URL}'/-/jobs/'${JOB_ID}'/artifacts/download?private_token='${PRIVATE_PROJECT_TOKEN_READ}'"}]}]}'
         
     - echo "$DATA"
     - echo "$JOB_ID"
