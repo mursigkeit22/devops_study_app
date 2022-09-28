@@ -15,7 +15,7 @@ build-backend-code-job:
     reports:
       dotenv: backend.env
     expire_in: 1 week
-slack-notification-backend:
+notification-backend:
   rules:
     - changes:
       - backend/*
