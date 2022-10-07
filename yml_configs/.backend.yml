@@ -7,11 +7,11 @@ build-backend-code-job:
     - echo JOB_ID=$CI_JOB_ID >> backend.env
     - echo JOB_NAME=$CI_JOB_NAME >> backend.env
     - cd backend
-    - mvn package -Dversion.application=${VERSION}
+    - mvn package 
   artifacts:
     name: "${CI_JOB_NAME}_${CI_JOB_ID}"
     paths:
-      - backend/target/sausage-store-${VERSION}.jar
+      - backend/target/sausage-store-0.0.1-SNAPSHOT.jar
     reports:
       dotenv: backend.env
     expire_in: 1 week
