@@ -16,9 +16,7 @@ build-backend-code-job:
       dotenv: backend.env
     expire_in: 1 week
 notification-backend:
-  rules:
-    - changes:
-      - backend/*
+  
   extends:
     - .notification
   variables:
