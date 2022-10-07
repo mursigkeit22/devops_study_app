@@ -19,6 +19,8 @@
     - echo "$JOB_NAME"
     - echo $TEXT_NOTIF/*
     - echo ${TEXT_NOTIF}/*
+    - echo '${TEXT_NOTIF}'/*
+    - echo "'${TEXT_NOTIF}'/*"
     
     - >
       curl
