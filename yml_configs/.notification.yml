@@ -2,8 +2,8 @@
   stage: notify
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /send notification/
-    - changes:
-      - $TEXT_NOTIF/*
+      changes:
+        - $TEXT_NOTIF/*
 
  
   script:
