@@ -14,14 +14,7 @@
         {"type": "actions","elements": [{"type": "button","text": {"type":"plain_text","text":"Скачать"},"style":"danger",
         "url":"'${CI_PROJECT_URL}'/-/jobs/'${JOB_ID}'/artifacts/download"}]}]}'
         
-    - echo "$DATA"
-    - echo "$JOB_ID"
-    - echo "$JOB_NAME"
-    - echo $TEXT_NOTIF/*
-    - echo ${TEXT_NOTIF}/*
-    - echo '${TEXT_NOTIF}'/*
-    - echo "'${TEXT_NOTIF}'/*"
-    - echo '${TEXT_NOTIF}'"/*"
+    
     
     - >
       curl
