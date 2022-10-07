@@ -9,4 +9,4 @@ include:
 stages:
   - build
   #- test
-  #- notify
+  - notify
