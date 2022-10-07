@@ -14,14 +14,17 @@
         {"type": "actions","elements": [{"type": "button","text": {"type":"plain_text","text":"Скачать"},"style":"danger",
         "url":"'${CI_PROJECT_URL}'/-/jobs/'${JOB_ID}'/artifacts/download"}]}]}'
 
-    - echo  ${CI_PROJECT_DIR}        
-    
     - >
       curl
       --request POST 
       --header "Content-type: application/json" 
       --data "$DATA"
       --url "$NOTIFICATION_URL"
+
+    - echo CI_COMMIT_BRANCH
+    - echo $CI_COMMIT_BRANCH
+    - echo "${CI_COMMIT_BRANCH}"
+
  
 
 
