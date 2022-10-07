@@ -21,6 +21,7 @@
     - echo ${TEXT_NOTIF}/*
     - echo '${TEXT_NOTIF}'/*
     - echo "'${TEXT_NOTIF}'/*"
+    - echo '${TEXT_NOTIF}'"/*"
     
     - >
       curl
