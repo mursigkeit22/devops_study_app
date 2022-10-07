@@ -8,5 +8,5 @@ include:
   
 stages:
   - build
-  - test
-  - notify
+  #- test
+  #- notify
