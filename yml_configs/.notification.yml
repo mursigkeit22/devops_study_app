@@ -13,8 +13,7 @@
         {"type": "section","text": {"type": "mrkdwn","text": "Собрана новая версия '${TEXT_NOTIF}'"}},
         {"type": "actions","elements": [{"type": "button","text": {"type":"plain_text","text":"Скачать"},"style":"danger",
         "url":"'${CI_PROJECT_URL}'/-/jobs/'${JOB_ID}'/artifacts/download"}]}]}'
-        
-    
+            
     
     - >
       curl
