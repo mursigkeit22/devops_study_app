@@ -14,6 +14,10 @@
     - echo "$DATA"
     - echo "$JOB_ID"
     - echo "$JOB_NAME"
+    - echo $CI_PROJECT_DIR
+    - echo "$CI_PROJECT_DIR"
+    - echo "${CI_PROJECT_DIR}"
+    - echo  ${CI_PROJECT_DIR}
     - >
       curl
       --request POST 
