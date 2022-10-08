@@ -7,10 +7,11 @@
 
  
   script:
+    - TEXT = "Вышла новая версия '${TEXT_NOTIF}' сосисочной — '${VERSION}'. Скачать '${TEXT_NOTIF}' можно по ссылке — '${NEXUS_REPO_URL}com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}."
     - >
         DATA='{"blocks":
         [
-        {"type": "section","text": {"type": "mrkdwn","text": "Собрана новая версия '${TEXT_NOTIF}'"}},
+        {"type": "section","text": {"type": "mrkdwn","text": '${TEXT}'}},
         {"type": "actions","elements": [{"type": "button","text": {"type":"plain_text","text":"Скачать"},"style":"danger",
         "url":"'${CI_PROJECT_URL}'/-/jobs/'${JOB_ID}'/artifacts/download"}]}]}'
 
@@ -21,9 +22,7 @@
       --data "$DATA"
       --url "$NOTIFICATION_URL"
 
-    - echo CI_COMMIT_BRANCH
-    - echo $CI_COMMIT_BRANCH
-    - echo "${CI_COMMIT_BRANCH}"
+    
 
  
 
