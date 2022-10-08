@@ -13,8 +13,8 @@ build-backend-code-job:
 
 upload-backend-release:
   stage: release
-  only:
-    changes:
+  rules:
+    - changes:
       - backend/*
   needs:
     - build-backend-code-job
