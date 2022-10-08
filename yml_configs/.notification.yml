@@ -3,11 +3,11 @@
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /send notification/
       changes:
-        - $TEXT_NOTIF/*
+        - $COMPONENT_NAME/*
 
  
   script:
-    - TEXT="Вышла новая версия ${TEXT_NOTIF} сосисочной — ${VERSION}." 
+    - TEXT="Вышла новая версия ${COMPONENT_NAME} сосисочной — ${VERSION}." 
     - LINK="${NEXUS_REPO_URL}com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar"
     
     - >
