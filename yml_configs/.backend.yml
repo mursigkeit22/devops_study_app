@@ -4,22 +4,12 @@ build-backend-code-job:
     - changes:
       - backend/*
   script:
-    - echo JOB_ID=$CI_JOB_ID >> backend.env
-    - echo JOB_NAME=$CI_JOB_NAME >> backend.env
     - cd backend
     - mvn package -Dversion.application=${VERSION}
+  cache:
+    paths:
+      - backend/target/sausage-store-${VERSION}.jar
     
-  artifacts:
-    name: "${CI_JOB_NAME}_${CI_JOB_ID}"
-    cache:
-      paths:
-        - backend/target/sausage-store-${VERSION}.jar
-    reports:
-      dotenv: backend.env
-    expire_in: 1 week
-
-stages:
-  - release
 
 upload-backend-release:
   stage: release
@@ -37,7 +27,7 @@ notification-backend:
   extends:
     - .notification
   variables:
-    TEXT_NOTIF: "backend"
+    COMPONENT_NAME: "backend"
   needs:
     - build-backend-code-job   
   
