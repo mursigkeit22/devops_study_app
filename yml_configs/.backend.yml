@@ -8,9 +8,7 @@ build-backend-code-job:
     - echo JOB_NAME=$CI_JOB_NAME >> backend.env
     - cd backend
     - mvn package -Dversion.application=${VERSION}
-    - echo CI_PROJECT_DIR
-    - echo $CI_PROJECT_DIR
-    - echo "${CI_PROJECT_DIR}"
+    
   artifacts:
     name: "${CI_JOB_NAME}_${CI_JOB_ID}"
     paths:
@@ -18,6 +16,21 @@ build-backend-code-job:
     reports:
       dotenv: backend.env
     expire_in: 1 week
+
+stages:
+  - release
+
+upload-backend-release:
+  stage: release
+  only:
+    changes:
+      - backend/*
+  needs:
+    - build-backend-code-job
+  script:
+    - cd backend
+    - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy
+
 notification-backend:
   
   extends:
