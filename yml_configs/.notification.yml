@@ -7,7 +7,7 @@
 
  
   script:
-    - TEXT="Вышла новая версия '${TEXT_NOTIF}' сосисочной — '${VERSION}'. Скачать '${TEXT_NOTIF}' можно по ссылке — '${NEXUS_REPO_URL}com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.'"
+    - TEXT="Вышла новая версия '${TEXT_NOTIF}' сосисочной — '${VERSION}'. Скачать '${TEXT_NOTIF}' можно по ссылке — '${NEXUS_REPO_URL}com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar'"
 
     - echo $TEXT
     
@@ -18,6 +18,8 @@
         {"type": "actions","elements": [{"type": "button","text": {"type":"plain_text","text":"Скачать"},"style":"danger",
         "url":"'${CI_PROJECT_URL}'/-/jobs/'${JOB_ID}'/artifacts/download"}]}]}'
 
+    - echo $DATA
+    
     - >
       curl
       --request POST 
