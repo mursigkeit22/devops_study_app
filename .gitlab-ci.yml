@@ -12,4 +12,6 @@ include:
 stages:
   - build
   #- test
+  - release
   - notify
+  
