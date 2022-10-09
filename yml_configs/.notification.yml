@@ -8,8 +8,7 @@
  
   script:
     - TEXT="Вышла новая версия ${COMPONENT_NAME} сосисочной — ${VERSION}." 
-    - LINK="${NEXUS_REPO_URL}com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar"
-    
+        
     - >
         DATA='{"blocks":
         [
