@@ -28,7 +28,7 @@ notification-backend:
     - .notification
   variables:
     COMPONENT_NAME: "backend"
-    LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar"
+    LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
   needs:
     - build-backend-code-job   
   
