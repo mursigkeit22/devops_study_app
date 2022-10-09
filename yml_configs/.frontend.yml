@@ -9,6 +9,8 @@ build-frontend-code-job:
     - npm install
     - npm run build
     - ls
+    - cd dist
+    - ls
   cache:
     paths:
       - frontend/dist/frontend
