@@ -17,9 +17,6 @@ build-frontend-code-job:
 
 upload-frontend-release:
   stage: release
-  dependencies:
-    - build-frontend-code-job
-
   rules:
     - changes:
       - frontend/*
