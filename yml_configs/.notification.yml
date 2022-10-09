@@ -1,7 +1,7 @@
 .notification:
   stage: notify
   rules:
-    - if: $CI_COMMIT_MESSAGE =~ /Update/
+    - if: $CI_COMMIT_MESSAGE =~ /send notification/
       changes:
         - $COMPONENT_NAME/*
 
