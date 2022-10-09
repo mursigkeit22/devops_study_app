@@ -8,6 +8,7 @@ build-frontend-code-job:
     - npm install
     - npm run build
   cache:
+    key: frontend
     paths:
       - frontend/dist/frontend
 
@@ -23,6 +24,7 @@ upload-frontend-release:
     - tar czvf sausage-store-${VERSION}.tar.gz frontend
     - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-frontend/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
   cache:
+    key: frontend
     
 notification-frontend:
   stage: notify
