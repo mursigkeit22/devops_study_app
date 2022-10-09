@@ -6,8 +6,11 @@ build-backend-code-job:
   script:
     - cd backend
     - mvn package -Dversion.application=${VERSION}
-  
-    
+  cache:
+    key: backend
+    paths:
+      - backend/target/sausage-store-${VERSION}.jar
+ 
 
 upload-backend-release:
   stage: release
