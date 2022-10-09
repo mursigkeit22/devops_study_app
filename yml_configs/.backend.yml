@@ -7,6 +7,7 @@ build-backend-code-job:
     - cd backend
     - mvn package -Dversion.application=${VERSION}
   cache:
+    key: backend
     paths:
       - backend/target/sausage-store-${VERSION}.jar
     
@@ -22,6 +23,7 @@ upload-backend-release:
     - cd backend
     - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy
   cache:
+    key: backend
     paths:
       - backend/target/sausage-store-${VERSION}.jar
 
@@ -33,7 +35,7 @@ notification-backend:
     COMPONENT_NAME: "backend"
     LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
   needs:
-    - build-backend-code-job   
+    - upload-backend-release   
   
 
 
