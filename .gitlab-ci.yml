@@ -14,4 +14,10 @@ stages:
   - test
   - release
   - notify
+
+cache:
+    paths:
+      - backend/target/
+      - frontend/dist/frontend
+
   
