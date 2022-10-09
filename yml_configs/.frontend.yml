@@ -25,6 +25,8 @@ upload-frontend-release:
     - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-frontend/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
   cache:
     key: frontend
+    paths:
+      - frontend/dist/frontend
     
 notification-frontend:
   stage: notify
