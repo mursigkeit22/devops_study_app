@@ -2,11 +2,11 @@ variables:
   VERSION: 1.0.${CI_PIPELINE_ID}
 
 include:
-  #- template: Security/SAST.gitlab-ci.yml
-  #- local: 'yml_configs/.backend.yml'
+  - template: Security/SAST.gitlab-ci.yml
+  - local: 'yml_configs/.backend.yml'
   - local: 'yml_configs/.frontend.yml'
   - local: 'yml_configs/.notification.yml'
-  #- local: 'yml_configs/.sast.yml'
+  - local: 'yml_configs/.sast.yml'
   #- local: 'yml_configs/.sonar.yml'
   
 stages:
