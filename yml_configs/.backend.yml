@@ -22,8 +22,8 @@ upload-backend-release:
   script:
     - cd backend
     - ls
-    - ls target/
     - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy
+    - ls target/
   
 
 notification-backend:
