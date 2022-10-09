@@ -6,10 +6,7 @@ build-backend-code-job:
   script:
     - cd backend
     - mvn package -Dversion.application=${VERSION}
-  cache:
-    key: backend
-    paths:
-      - backend/target/sausage-store-${VERSION}.jar
+  
     
 
 upload-backend-release:
@@ -21,15 +18,7 @@ upload-backend-release:
     - build-backend-code-job
   script:
     - cd backend
-    - echo $VERSION
-    - ls
-    - mvn -s settings.xml -Dversion.application=${VERSION} jar:jar deploy:deploy 
-    - echo $VERSION
-    
-  cache:
-    key: backend
-    paths:
-      - backend/target/sausage-store-${VERSION}.jar
+    - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy 
   
 
 notification-backend:
