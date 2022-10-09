@@ -21,9 +21,15 @@ upload-backend-release:
     - build-backend-code-job
   script:
     - cd backend
+    - echo $VERSION
     - ls
     - mvn -s settings.xml jar:jar deploy:deploy 
-    - ls target/
+    - echo $VERSION
+    
+  cache:
+    key: backend
+    paths:
+      - backend/target/sausage-store-${VERSION}.jar
   
 
 notification-backend:
