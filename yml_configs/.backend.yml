@@ -21,12 +21,7 @@ upload-backend-release:
     - build-backend-code-job
   script:
     - cd backend
-    - mvn -s settings.xml -Dversion.application=${VERSION} jar:jar deploy:deploy 
-  cache:
-    key: backend
-    paths:
-      - backend/target
-
+    - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy 
   
 
 notification-backend:
