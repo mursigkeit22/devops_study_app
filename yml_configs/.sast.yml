@@ -8,6 +8,9 @@ spotbugs-sast:
   rules:
     - changes:
       - backend/*
+  cache:
+    paths:
+      - backend/target/sausage-store-${VERSION}.jar
 eslint-sast:
   rules:
     - changes:
