@@ -24,10 +24,7 @@ upload-backend-release:
     - ls
     - ls target/
     - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy
-  cache:
-    key: backend
-    paths:
-      - backend/target/sausage-store-${VERSION}.jar
+  
 
 notification-backend:
   
