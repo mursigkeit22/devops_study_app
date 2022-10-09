@@ -11,6 +11,9 @@ spotbugs-sast:
     key: backend
     paths:
       - backend/target/sausage-store-${VERSION}.jar
+  artifacts:
+    reports:
+      sast: gl-sast-report.json
 
     
     
