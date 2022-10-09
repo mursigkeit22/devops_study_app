@@ -33,10 +33,7 @@ upload-frontend-release:
  
     
 notification-frontend:
-  stage: notify
-  rules:
-    - changes:
-      - frontend/*
+  
   extends:
     - .notification
   variables:
