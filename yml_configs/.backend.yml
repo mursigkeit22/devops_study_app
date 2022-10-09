@@ -22,7 +22,7 @@ upload-backend-release:
   script:
     - cd backend
     - ls
-    - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy
+    - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests jar:jar deploy:deploy 
     - ls target/
   
 
