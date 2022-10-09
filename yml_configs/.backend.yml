@@ -21,6 +21,8 @@ upload-backend-release:
     - build-backend-code-job
   script:
     - cd backend
+    - ls
+    - ls target/
     - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy
   cache:
     key: backend
