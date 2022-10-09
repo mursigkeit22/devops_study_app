@@ -1,6 +1,5 @@
 spotbugs-sast:
-  dependencies:
-    - build-backend-code-job
+  
   variables:
     SAST_JAVA_VERSION: 11
     COMPILE: "false"
