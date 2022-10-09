@@ -3,14 +3,14 @@ spotbugs-sast:
   variables:
     SAST_JAVA_VERSION: 11
     COMPILE: "false"
-    MAVEN_REPO_PATH: $CI_PROJECT_DIR
+    MAVEN_REPO_PATH: $CI_PROJECT_DIR/backend/target/
   rules:
     - changes:
       - backend/*
   cache:
     key: backend
     paths:
-      - backend/target/sausage-store-${VERSION}.jar
+      - backend/target/
   artifacts:
     reports:
       sast: gl-sast-report.json
