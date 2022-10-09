@@ -11,11 +11,7 @@ spotbugs-sast:
     key: backend
     paths:
       - backend/target/
-  artifacts:
-    reports:
-      sast: gl-sast-report.json
-
-    
+  
     
 eslint-sast:
   rules:
