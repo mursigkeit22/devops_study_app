@@ -44,7 +44,6 @@ notification-frontend:
   variables:
     COMPONENT_NAME: "frontend"
     LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-frontend/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
-  needs:
-    - upload-frontend-release   
+ 
 
 
