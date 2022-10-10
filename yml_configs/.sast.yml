@@ -11,6 +11,15 @@ spotbugs-sast:
     key: backend
     paths:
       - backend/target/
+eslint-sast:
+  rules:
+    - changes:
+      - frontend/*
+	  
+nodejs-scan-sast:
+  rules:
+    - changes:
+      - frontend/*
   
     
 
