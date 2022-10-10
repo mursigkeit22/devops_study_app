@@ -21,8 +21,6 @@ nodejs-scan-sast:
     - changes:
       - frontend/*
   
-    
-
 semgrep-sast:
   rules:
     - changes:
