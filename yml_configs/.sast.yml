@@ -6,7 +6,7 @@ spotbugs-sast:
     MAVEN_REPO_PATH: $CI_PROJECT_DIR/backend/target/
   rules:
     - changes:
-      - backend/*
+      - backend/**/*
   cache:
     key: backend
     paths:
@@ -16,13 +16,13 @@ spotbugs-sast:
 eslint-sast:
   rules:
     - changes:
-      - frontend/*
+      - frontend/**/*
 nodejs-scan-sast:
   rules:
     - changes:
-      - frontend/*
+      - frontend/**/*
 semgrep-sast:
   rules:
     - changes:
-      - frontend/* 
-      - backend/* 
+      - frontend/**/* 
+      - backend/**/* 
