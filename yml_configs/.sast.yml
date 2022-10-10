@@ -13,10 +13,7 @@ spotbugs-sast:
       - backend/target/
   
     
-nodejs-scan-sast:
-  rules:
-    - changes:
-      - frontend/*
+
 semgrep-sast:
   rules:
     - changes:
