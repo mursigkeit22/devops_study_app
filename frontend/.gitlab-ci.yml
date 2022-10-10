@@ -1,3 +1,7 @@
+cache:
+  paths:
+    - frontend/dist/frontend
+
 include:
   - local: 'yml_configs/.notification.yml'
   - template: Security/SAST.gitlab-ci.yml
