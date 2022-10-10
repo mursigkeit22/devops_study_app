@@ -13,10 +13,6 @@ spotbugs-sast:
       - backend/target/
   
     
-eslint-sast:
-  rules:
-    - changes:
-      - frontend/*
 nodejs-scan-sast:
   rules:
     - changes:
