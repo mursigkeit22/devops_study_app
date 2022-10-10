@@ -31,7 +31,7 @@ upload-backend-release:
   stage: release
   rules:
     - changes:
-      - backend/*
+      - backend/**/*
   needs:
     - build-backend-code-job
   script:
