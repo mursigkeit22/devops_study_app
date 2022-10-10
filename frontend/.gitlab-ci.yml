@@ -6,8 +6,7 @@ cache:
 include:
   - local: 'yml_configs/.notification.yml'
   - template: Security/SAST.gitlab-ci.yml
-  - local: 'yml_configs/.sast.yml'
-  - local: 'yml_configs/.sonar.yml'
+  - local: 'yml_configs/.frontend_test.yml'
  
 stages:
    - build
@@ -25,7 +24,23 @@ build-frontend-code-job:
     - cd frontend
     - npm install
     - npm run build
-  
+
+sonarqube-frontend-sast:
+  stage: test
+  rules:
+    - changes:
+      - frontend/**/*
+  image: sonarsource/sonar-scanner-cli:latest
+  script:
+    - cd frontend
+    - >
+      sonar-scanner -Dsonar.qualitygate.wait=true
+      -Dsonar.projectName="09_${GITLAB_USER_NAME}_FRONTEND"
+      -Dsonar.projectKey=${SONAR_PROJECT_KEY_FRONTEND}
+      -Dsonar.sources=.
+      -Dsonar.host.url=${SONARQUBE_URL}
+      -Dsonar.login=${SONAR_LOGIN_FRONTEND} 
+
  
 
 upload-frontend-release:
