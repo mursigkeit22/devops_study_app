@@ -33,8 +33,6 @@ upload-backend-release:
   rules:
     - changes:
       - backend/**/*
-  needs:
-    - build-backend-code-job
   script:
     - cd backend
     - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy 
@@ -47,8 +45,7 @@ notification-backend:
   variables:
     COMPONENT_NAME: "backend"
     LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
-  needs:
-    - upload-backend-release   
+  
   
 
 
