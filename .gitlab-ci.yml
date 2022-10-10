@@ -10,9 +10,9 @@ backend:
     include:
       - "/backend/.gitlab-ci.yml"
     strategy: depend
-  only:
+  rules:
     changes:  
-      - backend/**/* 
+      - backend/* 
 
 
 
