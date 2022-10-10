@@ -1,3 +1,8 @@
+cache:
+    key: backend
+    paths:
+      - backend/target
+
 variables:
   JAVA_OPTS: -XX:MaxRAMPercentage=90
 include:
@@ -21,10 +26,7 @@ build-backend-code-job:
   script:
     - cd backend
     - mvn package -Dversion.application=${VERSION}
-  cache:
-    key: backend
-    paths:
-      - backend/target
+  
  
 
 upload-backend-release:
