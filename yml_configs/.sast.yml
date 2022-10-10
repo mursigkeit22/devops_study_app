@@ -7,10 +7,6 @@ spotbugs-sast:
   rules:
     - changes:
       - backend/**/*
-  cache:
-    key: backend
-    paths:
-      - backend/target/
   
     
 eslint-sast:
