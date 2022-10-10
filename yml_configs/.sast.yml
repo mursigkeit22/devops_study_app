@@ -1,5 +1,4 @@
 spotbugs-sast:
-  
   variables:
     SAST_JAVA_VERSION: 11
     COMPILE: "false"
@@ -11,6 +10,7 @@ spotbugs-sast:
     key: backend
     paths:
       - backend/target/
+
 eslint-sast:
   rules:
     - changes:
