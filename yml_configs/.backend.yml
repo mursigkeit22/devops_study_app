@@ -4,27 +4,35 @@ build-backend-code-job:
     - changes:
       - backend/*
   script:
-    - echo JOB_ID=$CI_JOB_ID >> backend.env
-    - echo JOB_NAME=$CI_JOB_NAME >> backend.env
     - cd backend
-    - mvn package
-  artifacts:
-    name: "${CI_JOB_NAME}_${CI_JOB_ID}"
+    - mvn package -Dversion.application=${VERSION}
+  cache:
+    key: backend
     paths:
-      - backend/target/sausage-store-0.0.1-SNAPSHOT.jar
-    reports:
-      dotenv: backend.env
-    expire_in: 1 week
-notification-backend:
+      - backend/target
+ 
+
+upload-backend-release:
+  stage: release
   rules:
     - changes:
       - backend/*
+  needs:
+    - build-backend-code-job
+  script:
+    - cd backend
+    - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy 
+  
+
+notification-backend:
+  
   extends:
     - .notification
   variables:
-    TEXT_NOTIF: "backend"
+    COMPONENT_NAME: "backend"
+    LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
   needs:
-    - build-backend-code-job   
+    - upload-backend-release   
   
 
 

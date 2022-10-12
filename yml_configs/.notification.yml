@@ -2,24 +2,31 @@
   stage: notify
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /send notification/
+      changes:
+        - $COMPONENT_NAME/*
+
  
   script:
+    - TEXT="Вышла новая версия ${COMPONENT_NAME} сосисочной — ${VERSION}." 
+        
     - >
         DATA='{"blocks":
         [
-        {"type": "section","text": {"type": "mrkdwn","text": "Собрана новая версия '${TEXT_NOTIF}'"}},
+        {"type": "section","text": {"type": "mrkdwn","text": "'${TEXT}'"}},
         {"type": "actions","elements": [{"type": "button","text": {"type":"plain_text","text":"Скачать"},"style":"danger",
-        "url":"'${CI_PROJECT_URL}'/-/jobs/'${JOB_ID}'/artifacts/download"}]}]}'
-        
-    - echo "$DATA"
-    - echo "$JOB_ID"
-    - echo "$JOB_NAME"
+        "url":"'${LINK}'"}]}]}'
+
+    - echo $DATA
+    
     - >
       curl
       --request POST 
       --header "Content-type: application/json" 
       --data "$DATA"
       --url "$NOTIFICATION_URL"
+
+    
+
  
 
 
