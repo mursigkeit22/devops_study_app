@@ -1,35 +1,40 @@
+cache:
+    key: frontend
+    paths:
+      - frontend/dist/frontend
+
+include:
+  - local: 'yml_configs/.notification.yml'
+  - template: Security/SAST.gitlab-ci.yml
+  - local: 'yml_configs/.frontend-test.yml'
+ 
+stages:
+   - build
+   - test
+   - release
+   - notify
+
+
 build-frontend-code-job:
   stage: build  
   rules:
     - changes:
-      - frontend/*
+      - frontend/**/*
   script:
     - cd frontend
     - npm install
     - npm run build
-  cache:
-    key: frontend
-    paths:
-      - frontend/dist/frontend
- 
 
 upload-frontend-release:
   stage: release
-  dependencies:
-    - build-frontend-code-job
   rules:
     - changes:
-      - frontend/*
-  needs:
-    - build-frontend-code-job
+      - frontend/**/*
   script:
     - cd frontend/dist
     - tar czvf sausage-store-${VERSION}.tar.gz frontend
     - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-frontend/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
-  cache:
-    key: frontend
-    paths:
-      - frontend/dist/frontend
+  
 
       
 notification-frontend:
@@ -39,6 +44,6 @@ notification-frontend:
   variables:
     COMPONENT_NAME: "frontend"
     LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-frontend/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
-  needs:
-    - upload-frontend-release   
+ 
+
 

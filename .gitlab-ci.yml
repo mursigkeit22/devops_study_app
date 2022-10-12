@@ -1,19 +1,28 @@
 variables:
   VERSION: 1.0.${CI_PIPELINE_ID}
 
-include:
-  - template: Security/SAST.gitlab-ci.yml
-  - local: 'yml_configs/.backend.yml'
-  - local: 'yml_configs/.frontend.yml'
-  - local: 'yml_configs/.notification.yml'
-  - local: 'yml_configs/.sast.yml'
-  - local: 'yml_configs/.sonar.yml'
-  
 stages:
-  - build
-  - test
-  - release
-  - notify
+  - module-pipelines
+
+backend:
+  stage: module-pipelines
+  trigger:
+    include:
+      - "/backend/.gitlab-ci.yml"
+    strategy: depend
+  rules:
+    - changes:  
+      - backend/**/*
+
+frontend:
+  stage: module-pipelines
+  trigger:
+    include:
+      - "/frontend/.gitlab-ci.yml"
+    strategy: depend 
+  rules:
+    - changes: 
+      - frontend/**/*
 
 
 
