@@ -1,29 +1,21 @@
 variables:
   VERSION: 1.0.${CI_PIPELINE_ID}
 
+before_script:
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 600 ~/.ssh
+  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+
 stages:
-  - module-pipelines
+  - deploy
 
-backend:
-  stage: module-pipelines
-  trigger:
-    include:
-      - "/backend/.gitlab-ci.yml"
-    strategy: depend
-  rules:
-    - changes:  
-      - backend/**/*
-
-frontend:
-  stage: module-pipelines
-  trigger:
-    include:
-      - "/frontend/.gitlab-ci.yml"
-    strategy: depend 
-  rules:
-    - changes: 
-      - frontend/**/*
-
-
+deploy:
+  stage: deploy
+  script:
+     - ssh ${DEV_USER}@${DEV_HOST} "id" 
 
   
