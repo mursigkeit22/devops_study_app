@@ -24,6 +24,7 @@ build-backend-code-job:
       - backend/**/*
   script:
     - cd backend
+    - mvn help:effective-settings
     - mvn package -Dversion.application=${VERSION}
   
  
