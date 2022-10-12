@@ -1,24 +1,38 @@
+cache:
+    key: backend
+    paths:
+      - backend/target
+
+variables:
+  JAVA_OPTS: -XX:MaxRAMPercentage=90
+include:
+  - local: 'yml_configs/.notification.yml'
+  - template: Security/SAST.gitlab-ci.yml
+  - local: 'yml_configs/.backend-test.yml'
+ 
+stages:
+   - build
+   - test
+   - release
+   - notify
+
+
 build-backend-code-job:
   stage: build  
   rules:
     - changes:
-      - backend/*
+      - backend/**/*
   script:
     - cd backend
     - mvn package -Dversion.application=${VERSION}
-  cache:
-    key: backend
-    paths:
-      - backend/target
+  
  
 
 upload-backend-release:
   stage: release
   rules:
     - changes:
-      - backend/*
-  needs:
-    - build-backend-code-job
+      - backend/**/*
   script:
     - cd backend
     - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy 
@@ -31,11 +45,7 @@ notification-backend:
   variables:
     COMPONENT_NAME: "backend"
     LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
-  needs:
-    - upload-backend-release   
+  
   
 
-
-
- 
 
