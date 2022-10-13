@@ -53,6 +53,7 @@ deploy-frontend:
   rules:
     - changes:
       - frontend/**/*
+      when: manual
   extends:
     - .ssh-before-script
   script:
