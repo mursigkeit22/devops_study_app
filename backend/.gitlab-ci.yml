@@ -9,6 +9,7 @@ include:
   - local: 'yml_configs/.notification.yml'
   - template: Security/SAST.gitlab-ci.yml
   - local: 'yml_configs/.backend-test.yml'
+  - local: 'yml_configs/.ssh-before-script.yml'
  
 stages:
    - build
@@ -16,8 +17,6 @@ stages:
    - release
    - notify
    - deploy
-
-
 
 
 upload-backend-release:
@@ -43,14 +42,8 @@ deploy-backend:
   rules:
     - changes:
       - backend/**/*
-  before_script:
-    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 600 ~/.ssh
-    - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
+  extends:
+    - .ssh-before-script
   script:
     - scp ./backend/sausage-store-backend.service ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store-backend.service
     - scp ./backend/deploy-backend.sh ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/deploy-backend.sh
