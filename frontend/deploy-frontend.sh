@@ -1,3 +1,4 @@
+#! /bin/bash
 set -xe
 sudo cp -rf sausage-store-frontend.service /etc/systemd/system/sausage-store-frontend.service
 sudo rm -rf /var/www-data/dist/frontend/||true
