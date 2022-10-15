@@ -3,7 +3,7 @@
   rules:
     - if: $CI_COMMIT_MESSAGE =~ /send notification/
       changes:
-        - $COMPONENT_NAME/*
+        - $COMPONENT_NAME/**/*
 
  
   script:

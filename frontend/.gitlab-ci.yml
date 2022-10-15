@@ -1,0 +1,67 @@
+cache:
+    key: frontend
+    paths:
+      - frontend/dist/frontend
+
+include:
+  - local: 'yml_configs/.notification.yml'
+  - local: 'yml_configs/.ssh-before-script.yml'
+  - template: Security/SAST.gitlab-ci.yml
+  - local: 'yml_configs/.frontend-test.yml'
+ 
+stages:
+   - build
+   - test
+   - release
+   - notify
+   - deploy
+
+
+
+build-frontend-code-job:
+  stage: build  
+  rules:
+    - changes:
+      - frontend/**/*
+  script:
+    - cd frontend
+    - npm install
+    - npm run build
+
+upload-frontend-release:
+  stage: release
+  rules:
+    - changes:
+      - frontend/**/*
+  script:
+    - cd frontend/dist
+    - tar czvf sausage-store-${VERSION}.tar.gz frontend
+    - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-frontend/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
+  
+
+      
+notification-frontend:
+  
+  extends:
+    - .notification
+  variables:
+    COMPONENT_NAME: "frontend"
+    LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-frontend/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
+ 
+deploy-frontend:
+  stage: deploy
+  rules:
+    - changes:
+      - frontend/**/*
+      when: manual
+  extends:
+    - .ssh-before-script
+  script:
+    - scp ./frontend/sausage-store-frontend.service ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store-frontend.service
+    - scp ./frontend/deploy-frontend.sh ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/deploy-frontend.sh
+    - ssh ${DEV_USER}@${DEV_HOST} "export "CURRENT_VERSION=${VERSION}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST}";export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}";setsid /bin/bash -s " < ./frontend/deploy-frontend.sh  
+
+
+
+
+

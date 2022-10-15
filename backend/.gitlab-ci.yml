@@ -1,0 +1,57 @@
+cache:
+    key: backend
+    paths:
+      - backend/target
+
+variables:
+  JAVA_OPTS: -XX:MaxRAMPercentage=90
+include:
+  - local: 'yml_configs/.notification.yml'
+  - template: Security/SAST.gitlab-ci.yml
+  - local: 'yml_configs/.backend-test.yml'
+  - local: 'yml_configs/.ssh-before-script.yml'
+ 
+stages:
+   - build
+   - test
+   - release
+   - notify
+   - deploy
+
+
+upload-backend-release:
+  stage: release
+  rules:
+    - changes:
+      - backend/**/*
+  script:
+    - cd backend
+    - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy 
+  
+
+notification-backend:
+  
+  extends:
+    - .notification
+  variables:
+    COMPONENT_NAME: "backend"
+    LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
+
+deploy-backend:
+  stage: deploy
+  rules:
+    - changes:
+      - backend/**/*
+      when: manual
+  extends:
+    - .ssh-before-script
+  script:
+    - scp ./backend/sausage-store-backend.service ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store-backend.service
+    - scp ./backend/deploy-backend.sh ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/deploy-backend.sh
+    - ssh ${DEV_USER}@${DEV_HOST} "export "CURRENT_VERSION=${VERSION}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST}";export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}";setsid /bin/bash -s " < ./backend/deploy-backend.sh  
+    
+
+  
+  
+
+
