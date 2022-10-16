@@ -6,17 +6,15 @@ cache:
 include:
   - local: 'yml_configs/.notification.yml'
   - local: 'yml_configs/.ssh-before-script.yml'
-  #- template: Security/SAST.gitlab-ci.yml
-  #- local: 'yml_configs/.frontend-test.yml'
+  - template: Security/SAST.gitlab-ci.yml
+  - local: 'yml_configs/.frontend-test.yml'
  
 stages:
    - build
-   #- test
+   - test
    - release
    - notify
    - deploy
-
-
 
 build-frontend-code-job:
   stage: build  
@@ -37,9 +35,7 @@ upload-frontend-release:
     - cd frontend/dist
     - tar czvf sausage-store-${VERSION}.tar.gz frontend
     - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-frontend/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
-  
-
-      
+        
 notification-frontend:
   
   extends:
@@ -55,7 +51,7 @@ deploy-frontend:
   rules:
     - changes:
       - frontend/**/*
-      #when: manual
+      when: manual
   extends:
     - .ssh-before-script
   script:
