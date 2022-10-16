@@ -40,8 +40,7 @@ notification-backend:
 deploy-backend:
   stage: deploy
   environment:
-    name: backend-$CI_COMMIT_REF_SLUG
-    url: http://62.84.127.198/
+    name: backend-$VERSION
   rules:
     - changes:
       - backend/**/*
