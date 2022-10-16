@@ -6,12 +6,12 @@ cache:
 include:
   - local: 'yml_configs/.notification.yml'
   - local: 'yml_configs/.ssh-before-script.yml'
-  - template: Security/SAST.gitlab-ci.yml
-  - local: 'yml_configs/.frontend-test.yml'
+  #- template: Security/SAST.gitlab-ci.yml
+  #- local: 'yml_configs/.frontend-test.yml'
  
 stages:
    - build
-   - test
+   #- test
    - release
    - notify
    - deploy
@@ -50,10 +50,12 @@ notification-frontend:
  
 deploy-frontend:
   stage: deploy
+  environment:
+    name: frontend-$VERSION
   rules:
     - changes:
       - frontend/**/*
-      when: manual
+      #when: manual
   extends:
     - .ssh-before-script
   script:
