@@ -45,7 +45,6 @@ deploy-backend:
   rules:
     - changes:
       - backend/**/*
-      when: manual
   extends:
     - .ssh-before-script
   script:
