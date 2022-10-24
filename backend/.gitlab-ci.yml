@@ -18,6 +18,14 @@ stages:
    - notify
    - deploy
 
+build-backend-code-job:
+  stage: build  
+  rules:
+    - changes:
+      - backend/**/*
+  script:
+    - cd backend
+    - mvn package -Dversion.application=${VERSION}
 
 upload-backend-release:
   stage: release
@@ -39,6 +47,8 @@ notification-backend:
 
 deploy-backend:
   stage: deploy
+  environment:
+    name: backend-$VERSION
   rules:
     - changes:
       - backend/**/*
