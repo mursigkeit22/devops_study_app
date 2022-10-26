@@ -7,8 +7,8 @@ variables:
   JAVA_OPTS: -XX:MaxRAMPercentage=90
 include:
   - local: 'yml_configs/.notification.yml'
-  - template: Security/SAST.gitlab-ci.yml
-  - local: 'yml_configs/.backend-test.yml'
+  #- template: Security/SAST.gitlab-ci.yml
+  #- local: 'yml_configs/.backend-test.yml'
   - local: 'yml_configs/.ssh-before-script.yml'
  
 stages:
@@ -18,14 +18,14 @@ stages:
    - notify
    - deploy
 
-build-backend-code-job:
-  stage: build  
-  rules:
-    - changes:
-      - backend/**/*
-  script:
-    - cd backend
-    - mvn package -Dversion.application=${VERSION}
+#build-backend-code-job:
+  #stage: build  
+  #rules:
+  #  - changes:
+  #    - backend/**/*
+  #script:
+  #  - cd backend
+  #  - mvn package -Dversion.application=${VERSION}
 
 upload-backend-release:
   stage: release
