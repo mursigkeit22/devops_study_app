@@ -7,8 +7,8 @@ User=front-user
 Group=front-user
 ExecStart=/usr/bin/http-server /var/www-data/dist/frontend/ -p 80 --proxy http://localhost:8080
 Restart=always
-StandardOutput=file:/logs/out-front.log
-StandardError=file:/logs/error-front.log
+StandardOutput=append:/opt/log/sausage-store-frontend.log
+StandardError=append:/opt/log/error-sausage-store-frontend.log
 
 [Install]
 WantedBy=multi-user.target
