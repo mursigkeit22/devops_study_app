@@ -56,7 +56,7 @@ public class SausageApplicationIntegrationTest {
           .assertThat(products)
           .hasSize(6);
 
-        assertThat(products, hasItem(hasProperty("name", is("Сливочная"))));
+        assertThat(products, hasItem(hasProperty("name", is("Сливочнаяя"))));
         assertThat(products, hasItem(hasProperty("name", is("Особая"))));
         assertThat(products, hasItem(hasProperty("name", is("Молочная"))));
         assertThat(products, hasItem(hasProperty("name", is("Нюренбергская"))));
