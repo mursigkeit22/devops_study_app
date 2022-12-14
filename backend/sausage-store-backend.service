@@ -4,7 +4,7 @@ Description=Backend of sausage-store
 [Service]
 User=jarservice
 Group=jarusers
-EnvironmentFile=/etc/default/sausagestore
+EnvironmentFile=/home/jarservice/sausagestore.env
 StandardOutput=append:/opt/log/sausage-store-backend.log
 StandardError=append:/opt/log/error-sausage-store-backend.log
 Restart=always
