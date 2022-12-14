@@ -1,6 +1,6 @@
 #! /bin/bash
 set -xe
-sudo cat << EOF > /etc/default/sausagestore
+sudo cat << EOF > /home/jarservice/sausagestore.env
 PSQL_USER=${PSQL_USER}
 PSQL_PASSWORD=${PSQL_PASSWORD}
 PSQL_HOST=${PSQL_HOST}
