@@ -56,7 +56,7 @@ deploy-backend:
   extends:
     - .ssh-before-script
   script:
-    - bash echo "export "PSQL_HOST=${PSQL_HOST}" < ./backend/sausage-store-backend.service" >> test.txt
+    - echo bash "export "PSQL_HOST=${PSQL_HOST}" < ./backend/sausage-store-backend.service" >> test.txt
     - cat test.txt
     - cat ./backend/sausage-store-backend.service
     #- scp  ./backend/sausage-store-backend.service ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store-backend.service  
