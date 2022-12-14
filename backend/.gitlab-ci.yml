@@ -12,29 +12,29 @@ include:
   - local: 'yml_configs/.ssh-before-script.yml'
  
 stages:
-   - build
+   #- build
    #- test
-   - release
+   #- release
    #- notify
    - deploy
 
-build-backend-code-job:
-  stage: build  
-  rules:
-    - changes:
-      - backend/**/*
-  script:
-    - cd backend
-    - mvn package -Dversion.application=${VERSION}
+# build-backend-code-job:
+#   stage: build  
+#   rules:
+#     - changes:
+#       - backend/**/*
+#   script:
+#     - cd backend
+#     - mvn package -Dversion.application=${VERSION}
 
-upload-backend-release:
-  stage: release
-  rules:
-    - changes:
-      - backend/**/*
-  script:
-    - cd backend
-    - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy 
+# upload-backend-release:
+#   stage: release
+#   rules:
+#     - changes:
+#       - backend/**/*
+#   script:
+#     - cd backend
+#     - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy 
   
 
 # notification-backend:
@@ -56,10 +56,11 @@ deploy-backend:
   extends:
     - .ssh-before-script
   script:
-    - export PSQL_HOST=$PSQL_HOST < ./backend/sausage-store-backend.service
+    - echo "export "PSQL_HOST=${PSQL_HOST}"" < ./backend/sausage-store-backend.service >> test.txt
+    - cat test.txt
     - scp  ./backend/sausage-store-backend.service ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store-backend.service  
-    - scp ./backend/deploy-backend.sh ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/deploy-backend.sh
-    - ssh ${DEV_USER}@${DEV_HOST} "export "CURRENT_VERSION=${VERSION}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST}";export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}";setsid /bin/bash -s " < ./backend/deploy-backend.sh  
+    # - scp ./backend/deploy-backend.sh ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/deploy-backend.sh
+    # - ssh ${DEV_USER}@${DEV_HOST} "export "CURRENT_VERSION=${VERSION}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST}";export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}";setsid /bin/bash -s " < ./backend/deploy-backend.sh  
     
 
   
