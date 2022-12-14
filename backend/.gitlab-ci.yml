@@ -56,6 +56,7 @@ deploy-backend:
   extends:
     - .ssh-before-script
   script:
+    - bash "touch test.txt"
     - bash "export "PSQL_HOST=${PSQL_HOST}" < ./backend/sausage-store-backend.service >> test.txt"
     - cat test.txt
     - cat ./backend/sausage-store-backend.service
