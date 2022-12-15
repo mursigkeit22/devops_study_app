@@ -12,29 +12,29 @@ include:
   - local: 'yml_configs/.ssh-before-script.yml'
  
 stages:
-  #  - build
+    - build
    #- test
-  #  - release
+    - release
    #- notify
    - deploy
 
-# build-backend-code-job:
-#   stage: build  
-#   rules:
-#     - changes:
-#       - backend/**/*
-#   script:
-#     - cd backend
-#     - mvn package -Dversion.application=${VERSION}
+build-backend-code-job:
+  stage: build  
+  rules:
+    - changes:
+      - backend/**/*
+  script:
+    - cd backend
+    - mvn package -Dversion.application=${VERSION}
 
-# upload-backend-release:
-#   stage: release
-#   rules:
-#     - changes:
-#       - backend/**/*
-#   script:
-#     - cd backend
-#     - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy 
+upload-backend-release:
+  stage: release
+  rules:
+    - changes:
+      - backend/**/*
+  script:
+    - cd backend
+    - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy 
   
 
 # notification-backend:
