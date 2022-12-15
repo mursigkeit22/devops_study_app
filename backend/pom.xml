@@ -23,7 +23,6 @@
         <sonar.language>java</sonar.language>
         <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
         <version.application>0.0.1</version.application>
-        <spring.flyway.enabled>false</spring.flyway.enabled>
     </properties>
     <dependencies>
 
