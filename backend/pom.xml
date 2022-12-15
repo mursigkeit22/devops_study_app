@@ -135,6 +135,7 @@
                     <locations>
                         <location>classpath:db/migration</location>
                     </locations>
+                    <cleanDisabled>false</cleanDisabled>
                 </configuration>
             </plugin>
         </plugins>
