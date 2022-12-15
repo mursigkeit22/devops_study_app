@@ -1,5 +1,5 @@
 #! /bin/bash
-set -xe
+set -e
 cat << EOF > /home/serviceuser/sausagestore.env
 PSQL_USER=${PSQL_USER}
 PSQL_PASSWORD=${PSQL_PASSWORD}
