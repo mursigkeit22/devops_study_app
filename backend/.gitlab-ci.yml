@@ -12,11 +12,11 @@ include:
   - local: 'yml_configs/.ssh-before-script.yml'
  
 stages:
-    - build
+  - build
    #- test
-    - release
+  - release
    #- notify
-   - deploy
+  - deploy
 
 build-backend-code-job:
   stage: build  
