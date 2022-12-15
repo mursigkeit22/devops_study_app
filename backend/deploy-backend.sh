@@ -2,6 +2,7 @@
 
 set -xe
 cat << EOF > /home/serviceuser/sausagestore.env
+REPORT_PATH=/var/www-data/htdocs/
 PSQL_USER=${PSQL_USER}
 PSQL_PASSWORD=${PSQL_PASSWORD}
 PSQL_HOST=${PSQL_HOST}
