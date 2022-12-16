@@ -4,7 +4,7 @@ Description=Backend of sausage-store
 [Service]
 User=jarservice
 Group=jarusers
-EnvironmentFile=/etc/default/sausagestore
+EnvironmentFile=/home/serviceuser/sausagestore.env
 StandardOutput=append:/opt/log/sausage-store-backend.log
 StandardError=append:/opt/log/error-sausage-store-backend.log
 Restart=always
@@ -13,7 +13,10 @@ ExecStart=/usr/lib/jvm/java-16-openjdk-amd64/bin/java \
 -Dmyserver.bindAddr='127.0.0.1' \
 -Dmyserver.bindPort='8080' \
 -Dmyserver.hostName='Sausage-store' \
--jar '/home/jarservice/sausage-store-backend.jar'
+-jar '/home/jarservice/sausage-store-backend.jar'\
+--spring.datasource.url=jdbc:postgresql://${PSQL_HOST}:${PSQL_PORT}/${PSQL_DBNAME}\
+--spring.datasource.username=${PSQL_USER}\
+--spring.datasource.password=${PSQL_PASSWORD} 
 SuccessExitStatus=143
 
 [Install]
