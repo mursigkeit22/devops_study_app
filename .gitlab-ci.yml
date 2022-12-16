@@ -13,14 +13,14 @@ backend:
   rules:
     - changes:  
       - backend/**/*
-# frontend:
-#   stage: module-pipelines
-#   trigger:
-#     include:
-#       - "/frontend/.gitlab-ci.yml"
-#     strategy: depend 
-#   rules:
-#     - changes: 
-#       - frontend/**/*
+frontend:
+  stage: module-pipelines
+  trigger:
+    include:
+      - "/frontend/.gitlab-ci.yml"
+    strategy: depend 
+  rules:
+    - changes: 
+      - frontend/**/*
 
 
