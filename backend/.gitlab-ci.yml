@@ -6,16 +6,16 @@ cache:
 variables:
   JAVA_OPTS: -XX:MaxRAMPercentage=90
 include:
-  # - local: 'yml_configs/.notification.yml'
-  # - template: Security/SAST.gitlab-ci.yml
-  # - local: 'yml_configs/.backend-test.yml'
+  - local: 'yml_configs/.notification.yml'
+  - template: Security/SAST.gitlab-ci.yml
+  - local: 'yml_configs/.backend-test.yml'
   - local: 'yml_configs/.ssh-before-script.yml'
  
 stages:
   - build
-   #- test
+  - test
   - release
-   #- notify
+  - notify
   - deploy
 
 build-backend-code-job:
@@ -37,13 +37,13 @@ upload-backend-release:
     - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy 
   
 
-# notification-backend:
+notification-backend:
   
-#   extends:
-#     - .notification
-#   variables:
-#     COMPONENT_NAME: "backend"
-#     LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
+  extends:
+    - .notification
+  variables:
+    COMPONENT_NAME: "backend"
+    LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
 
 deploy-backend:
   stage: deploy
