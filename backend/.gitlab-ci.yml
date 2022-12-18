@@ -13,9 +13,9 @@ include:
  
 stages:
   - build
-  #- test
+  - test
   - release
-  #- notify
+  - notify
   - deploy
 
 build-backend-code-job:
