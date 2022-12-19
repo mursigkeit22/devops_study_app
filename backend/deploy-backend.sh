@@ -8,6 +8,12 @@ PSQL_PASSWORD=${PSQL_PASSWORD}
 PSQL_HOST=${PSQL_HOST}
 PSQL_PORT=${PSQL_PORT}
 PSQL_DBNAME=${PSQL_DBNAME}
+MONGO_DATABASE=${MONGO_DATABASE}
+MONGO_HOST=${MONGO_HOST}
+MONGO_PASSWORD=${MONGO_PASSWORD}
+MONGO_USER=${MONGO_USER}
+MONGO_REPLICA=${MONGO_REPLICA}
+MONGO_PORT=${MONGO_PORT}
 EOF
 sudo cp -rf sausage-store-backend.service /etc/systemd/system/sausage-store-backend.service
 sudo rm -f /home/jarservice/sausage-store-backend.jar||true
