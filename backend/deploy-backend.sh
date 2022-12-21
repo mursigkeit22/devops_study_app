@@ -1,7 +1,6 @@
 #! /bin/bash
 
-set +e 
-set -x
+set -xe
 cat << EOF > /home/serviceuser/backend.env
 REPORT_PATH=/var/reports/
 SPRING_DATASOURCE_URL=jdbc:postgresql://${PSQL_HOST}:${PSQL_PORT}/${PSQL_DBNAME}
@@ -15,7 +14,6 @@ docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
 docker pull ${CI_REGISTRY_IMAGE}/sausage-backend:latest
 docker stop sausage-backend || true
 docker rm sausage-backend || true
-set -xe
 docker run -d --name sausage-backend \
     --network=sausage_network \
     --restart always \
