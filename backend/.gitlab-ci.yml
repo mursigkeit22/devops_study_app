@@ -72,8 +72,9 @@ deploy-backend:
   extends:
     - .ssh-before-script
   script:
-    - ssh ${DEV_USER}@${DEV_HOST} 
-    "export "PSQL_USER=${PSQL_USER}"; 
+    - > 
+      ssh ${DEV_USER}@${DEV_HOST} 
+      "export "PSQL_USER=${PSQL_USER}"; 
      export "PSQL_PASSWORD=${PSQL_PASSWORD}";  
      export "PSQL_HOST=${PSQL_HOST}"; 
      export "PSQL_PORT=${PSQL_PORT}"; 
