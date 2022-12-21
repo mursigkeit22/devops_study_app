@@ -10,11 +10,6 @@ FROM openjdk:16-jdk-alpine
 ARG VERSION=${VERSION}
 WORKDIR /app
 COPY --from=builder /usr/src/app/YandexInternalRootCA.crt .
-FROM openjdk:16-jdk-alpine
-ARG VERSION=${VERSION}
-WORKDIR /app
-COPY --from=builder /usr/src/app/YandexInternalRootCA.crt .
-
 RUN keytool -importcert -file YandexInternalRootCA.crt \
     -alias yandex -cacerts -storepass changeit -noprompt \
     && rm -rf YandexInternalRootCA.crt \
