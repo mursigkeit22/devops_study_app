@@ -1,6 +1,7 @@
 #! /bin/bash
 
-set +e
+set +e 
+set x
 cat << EOF > /home/serviceuser/backend.env
 REPORT_PATH=/var/reports/
 SPRING_DATASOURCE_URL=jdbc:postgresql://${PSQL_HOST}:${PSQL_PORT}/${PSQL_DBNAME}
