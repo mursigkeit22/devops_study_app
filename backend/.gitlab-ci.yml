@@ -72,7 +72,6 @@ deploy-backend:
   extends:
     - .ssh-before-script
   script:
-    - scp  ./backend/sausage-store-backend.service ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store-backend.service  
     - ssh ${DEV_USER}@${DEV_HOST} 
     "export "PSQL_USER=${PSQL_USER}"; 
      export "PSQL_PASSWORD=${PSQL_PASSWORD}";  
