@@ -6,16 +6,14 @@ cache:
 include:
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'
-  #- local: 'yml_configs/.notification.yml'
   - local: 'yml_configs/.ssh-before-script.yml'
-  #- template: Security/SAST.gitlab-ci.yml
-  #- local: 'yml_configs/.frontend-test.yml'
+  - template: Security/SAST.gitlab-ci.yml
+  - local: 'yml_configs/.frontend-test.yml'
  
 stages:
    - build
-   #- test
+   - test
    - release
-   #- notify
    - deploy
 
 build-frontend-code-job:
@@ -48,14 +46,6 @@ upload-frontend-latest:
     - docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-frontend:latest
     - docker push $CI_REGISTRY_IMAGE/sausage-frontend:latest
 
-# notification-frontend:
-  
-#   extends:
-#     - .notification
-#   variables:
-#     COMPONENT_NAME: "frontend"
-#     LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-frontend/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
- 
 deploy-frontend:
   stage: deploy
   image: alpine:3.15.0
