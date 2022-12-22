@@ -4,23 +4,23 @@ variables:
 stages:
   - module-pipelines
 
-backend:
-  stage: module-pipelines
-  trigger:
-    include:
-      - "/backend/.gitlab-ci.yml"
-    strategy: depend
-  rules:
-    - changes:  
-      - backend/**/*
-# frontend:
+# backend:
 #   stage: module-pipelines
 #   trigger:
 #     include:
-#       - "/frontend/.gitlab-ci.yml"
-#     strategy: depend 
+#       - "/backend/.gitlab-ci.yml"
+#     strategy: depend
 #   rules:
-#     - changes: 
-#       - frontend/**/*
+#     - changes:  
+#       - backend/**/*
+frontend:
+  stage: module-pipelines
+  trigger:
+    include:
+      - "/frontend/.gitlab-ci.yml"
+    strategy: depend 
+  rules:
+    - changes: 
+      - frontend/**/*
 
 
