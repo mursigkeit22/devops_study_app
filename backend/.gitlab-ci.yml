@@ -16,7 +16,6 @@ stages:
   - build
   - test
   - release
-  #- notify
   - deploy
 
 build-backend-code-job:
