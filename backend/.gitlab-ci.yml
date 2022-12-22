@@ -8,7 +8,6 @@ variables:
 include:
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'
-  #- local: 'yml_configs/.notification.yml'
   - template: Security/SAST.gitlab-ci.yml
   - local: 'yml_configs/.backend-test.yml'
   - local: 'yml_configs/.ssh-before-script.yml'
@@ -56,14 +55,6 @@ upload-backend-latest:
     - docker tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-backend:latest
     - docker push $CI_REGISTRY_IMAGE/sausage-backend:latest
   
-
-# notification-backend:
-  
-#   extends:
-#     - .notification
-#   variables:
-#     COMPONENT_NAME: "backend"
-#     LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
 
 deploy-backend:
   stage: deploy
