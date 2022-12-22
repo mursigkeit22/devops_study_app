@@ -29,8 +29,7 @@ build-frontend-code-job:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - cd frontend
-    - docker build 
-    - npm run build --tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
+    - docker build --tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA .
     - docker push $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
 
 upload-frontend-latest:
