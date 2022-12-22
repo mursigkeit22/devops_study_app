@@ -4,50 +4,62 @@ cache:
       - frontend/dist/frontend
 
 include:
-  - local: 'yml_configs/.notification.yml'
+  - project: 'templates/ci'
+    file: 'DockerInDockerTemplate.yml'
+  #- local: 'yml_configs/.notification.yml'
   - local: 'yml_configs/.ssh-before-script.yml'
-  - template: Security/SAST.gitlab-ci.yml
-  - local: 'yml_configs/.frontend-test.yml'
+  #- template: Security/SAST.gitlab-ci.yml
+  #- local: 'yml_configs/.frontend-test.yml'
  
 stages:
    - build
-   - test
+   #- test
    - release
-   - notify
+   #- notify
    - deploy
 
 build-frontend-code-job:
-  stage: build  
+  stage: build 
+  image: docker:20.10.12-dind-rootless 
   rules:
     - changes:
       - frontend/**/*
+  before_script:
+    - until docker info; do sleep 1; done
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - cd frontend
-    - npm install
-    - npm run build
+    - docker build 
+    - npm run build --tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
 
-upload-frontend-release:
+upload-frontend-latest:
   stage: release
+  image: docker:20.10.12-dind-rootless
   rules:
     - changes:
       - frontend/**/*
-  script:
-    - cd frontend/dist
-    - tar czvf sausage-store-${VERSION}.tar.gz frontend
-    - curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-frontend/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
-        
-notification-frontend:
-  
-  extends:
-    - .notification
   variables:
-    COMPONENT_NAME: "frontend"
-    LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-frontend/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
+    GIT_STRATEGY: none
+  before_script:
+    - until docker info; do sleep 1; done
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker pull $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
+    - docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-frontend:latest
+    - docker push $CI_REGISTRY_IMAGE/sausage-frontend:latest
+
+# notification-frontend:
+  
+#   extends:
+#     - .notification
+#   variables:
+#     COMPONENT_NAME: "frontend"
+#     LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-frontend/sausage-store/${VERSION}/sausage-store-${VERSION}.tar.gz
  
 deploy-frontend:
   stage: deploy
-  environment:
-    name: frontend-$VERSION
+  image: alpine:3.15.0
   rules:
     - changes:
       - frontend/**/*
@@ -55,8 +67,7 @@ deploy-frontend:
   extends:
     - .ssh-before-script
   script:
-    - scp ./frontend/sausage-store-frontend.service ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store-frontend.service
-    - ssh ${DEV_USER}@${DEV_HOST} "export "VERSION=${VERSION}"; export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}";setsid /bin/bash -s " < ./frontend/deploy-frontend.sh  
+    - ssh ${DEV_USER}@${DEV_HOST} "export "CI_REGISTRY_USER=${CI_REGISTRY_USER}"; export "CI_REGISTRY_PASSWORD=${CI_REGISTRY_PASSWORD}"; export "CI_REGISTRY=${CI_REGISTRY}"; export "CI_REGISTRY_IMAGE=${CI_REGISTRY_IMAGE}"; setsid /bin/bash -s " < ./frontend/deploy-frontend.sh  
 
 
 
