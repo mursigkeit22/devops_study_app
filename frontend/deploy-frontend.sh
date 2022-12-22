@@ -11,5 +11,5 @@ docker run -d --name sausage-frontend \
     --network=sausage_network \
     --restart always \
     --pull always \
-    -p 80:80\
+    -p 80:80 \
     ${CI_REGISTRY_IMAGE}/sausage-frontend:latest 
