@@ -6,7 +6,8 @@ cache:
 variables:
   JAVA_OPTS: -XX:MaxRAMPercentage=90
 include:
-  - local: 'yml_configs/.notification.yml'
+  - project: 'templates/ci'
+    file: 'DockerInDockerTemplate.yml'
   - template: Security/SAST.gitlab-ci.yml
   - local: 'yml_configs/.backend-test.yml'
   - local: 'yml_configs/.ssh-before-script.yml'
@@ -15,40 +16,48 @@ stages:
   - build
   - test
   - release
-  - notify
   - deploy
 
 build-backend-code-job:
   stage: build  
+  image: docker:20.10.12-dind-rootless
   rules:
     - changes:
       - backend/**/*
+  before_script:
+    - until docker info; do sleep 1; done
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - cd backend
-    - mvn package -Dversion.application=${VERSION}
+    - >
+      docker build
+      --build-arg VERSION=$VERSION
+      --tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
+      .
+      
+    - docker push $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
+    
 
-upload-backend-release:
+upload-backend-latest:
+  variables:
+    GIT_STRATEGY: none
+  image: docker:20.10.12-dind-rootless
   stage: release
   rules:
     - changes:
       - backend/**/*
+  before_script:
+    - until docker info; do sleep 1; done
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - cd backend
-    - mvn -s settings.xml -Dversion.application=${VERSION} -DskipTests deploy 
+    - docker pull $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
+    - docker tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-backend:latest
+    - docker push $CI_REGISTRY_IMAGE/sausage-backend:latest
   
-
-notification-backend:
-  
-  extends:
-    - .notification
-  variables:
-    COMPONENT_NAME: "backend"
-    LINK: ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
 
 deploy-backend:
   stage: deploy
-  environment:
-    name: backend-$VERSION
+  image: alpine:3.15.0
   rules:
     - changes:
       - backend/**/*
@@ -56,8 +65,7 @@ deploy-backend:
   extends:
     - .ssh-before-script
   script:
-    - scp  ./backend/sausage-store-backend.service ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store-backend.service  
-    - ssh ${DEV_USER}@${DEV_HOST} "export "PSQL_USER=${PSQL_USER}"; export "PSQL_PASSWORD=${PSQL_PASSWORD}";  export "PSQL_HOST=${PSQL_HOST}"; export "PSQL_PORT=${PSQL_PORT}"; export "PSQL_DBNAME=${PSQL_DBNAME}"; export "VERSION=${VERSION}"; export "NEXUS_REPO_URL=${NEXUS_REPO_URL}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}"; export "MONGO_USER=${MONGO_USER}"; export "MONGO_PASSWORD=${MONGO_PASSWORD}"; export "MONGO_HOST=${MONGO_HOST}"; export "MONGO_DATABASE=${MONGO_DATABASE}"; export "MONGO_REPLICA=${MONGO_REPLICA}"; export "MONGO_PORT=${MONGO_PORT}"; setsid /bin/bash -s" < ./backend/deploy-backend.sh
+    - ssh ${DEV_USER}@${DEV_HOST} "export "PSQL_USER=${PSQL_USER}"; export "PSQL_PASSWORD=${PSQL_PASSWORD}"; export "PSQL_HOST=${PSQL_HOST}";export "PSQL_PORT=${PSQL_PORT}"; export "PSQL_DBNAME=${PSQL_DBNAME}"; export "VERSION=${VERSION}"; export "CI_REGISTRY_USER=${CI_REGISTRY_USER}"; export "CI_REGISTRY_PASSWORD=${CI_REGISTRY_PASSWORD}"; export "CI_REGISTRY=${CI_REGISTRY}"; export "CI_REGISTRY_IMAGE=${CI_REGISTRY_IMAGE}"; export "MONGO_USER=${MONGO_USER}"; export "MONGO_PASSWORD=${MONGO_PASSWORD}"; export "MONGO_HOST=${MONGO_HOST}"; export "MONGO_DATABASE=${MONGO_DATABASE}"; export "MONGO_REPLICA=${MONGO_REPLICA}"; export "MONGO_PORT=${MONGO_PORT}"; setsid /bin/bash -s" < ./backend/deploy-backend.sh
     
 
   

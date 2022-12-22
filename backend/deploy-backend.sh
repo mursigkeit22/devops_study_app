@@ -1,23 +1,22 @@
 #! /bin/bash
 
 set -xe
-cat << EOF > /home/serviceuser/sausagestore.env
-REPORT_PATH=/var/www-data/htdocs/
-PSQL_USER=${PSQL_USER}
-PSQL_PASSWORD=${PSQL_PASSWORD}
-PSQL_HOST=${PSQL_HOST}
-PSQL_PORT=${PSQL_PORT}
-PSQL_DBNAME=${PSQL_DBNAME}
-MONGO_DATABASE=${MONGO_DATABASE}
-MONGO_HOST=${MONGO_HOST}
-MONGO_PASSWORD=${MONGO_PASSWORD}
-MONGO_USER=${MONGO_USER}
-MONGO_REPLICA=${MONGO_REPLICA}
-MONGO_PORT=${MONGO_PORT}
+cat << EOF > /home/serviceuser/backend.env
+REPORT_PATH=/var/reports/
+SPRING_DATASOURCE_URL=jdbc:postgresql://${PSQL_HOST}:${PSQL_PORT}/${PSQL_DBNAME}
+SPRING_DATASOURCE_USERNAME=${PSQL_USER}
+SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}
+SPRING_DATA_MONGODB_URI=mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}?tls=true&replicaSet=${MONGO_REPLICA}
 EOF
-sudo cp -rf sausage-store-backend.service /etc/systemd/system/sausage-store-backend.service
-sudo rm -f /home/jarservice/sausage-store-backend.jar||true
-curl -u ${NEXUS_REPO_USER}:${NEXUS_REPO_PASS} -o sausage-store-backend.jar ${NEXUS_REPO_URL}/sausage-store-Valerie-Shelgunova-backend/com/yandex/practicum/devops/sausage-store/${VERSION}/sausage-store-${VERSION}.jar
-sudo cp ./sausage-store-backend.jar /home/jarservice/sausage-store-backend.jar
-sudo systemctl daemon-reload
-sudo systemctl restart sausage-store-backend.service
+sudo usermod -aG docker $USER
+docker network create -d bridge sausage_network || true
+docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+docker pull ${CI_REGISTRY_IMAGE}/sausage-backend:latest
+docker stop sausage-backend || true
+docker rm sausage-backend || true
+docker run -d --name sausage-backend \
+    --network=sausage_network \
+    --restart always \
+    --pull always \
+    --env-file backend.env \
+    ${CI_REGISTRY_IMAGE}/sausage-backend:latest 
