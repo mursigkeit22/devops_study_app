@@ -67,7 +67,7 @@ deploy-backend:
   script:
       - export VAULT_TOKEN="$(vault write -field=token auth/jwt/login role=sausage-store jwt=$CI_JOB_JWT)"
       - export "TEST_VARIABLE=$(vault kv get -field=TEST_VARIABLE secret/sausage-store)";
-      - echo ${PSQL_USER}
+      - echo ${TEST_VARIABLE}
 
 
     # - ssh ${DEV_USER}@${DEV_HOST} "export "PSQL_USER=${PSQL_USER}"; export "PSQL_PASSWORD=${PSQL_PASSWORD}"; export "PSQL_HOST=${PSQL_HOST}";export "PSQL_PORT=${PSQL_PORT}"; export "PSQL_DBNAME=${PSQL_DBNAME}"; export "VERSION=${VERSION}"; export "CI_REGISTRY_USER=${CI_REGISTRY_USER}"; export "CI_REGISTRY_PASSWORD=${CI_REGISTRY_PASSWORD}"; export "CI_REGISTRY=${CI_REGISTRY}"; export "CI_REGISTRY_IMAGE=${CI_REGISTRY_IMAGE}"; export "MONGO_USER=${MONGO_USER}"; export "MONGO_PASSWORD=${MONGO_PASSWORD}"; export "MONGO_HOST=${MONGO_HOST}"; export "MONGO_DATABASE=${MONGO_DATABASE}"; export "MONGO_REPLICA=${MONGO_REPLICA}"; export "MONGO_PORT=${MONGO_PORT}"; setsid /bin/bash -s" < ./backend/deploy-backend.sh
