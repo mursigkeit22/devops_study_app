@@ -66,7 +66,7 @@ deploy-backend:
     - .ssh-before-script
   script:
       - export VAULT_TOKEN="$(vault write -field=token auth/jwt/login role=sausage-store jwt=$CI_JOB_JWT)"
-      - export "TEST_VARIABLE1=$(vault kv get -field=TEST_VARIABLE1 -mount=secret sausage-store)";
+      - export "TEST_VARIABLE1=$(vault kv get -field=TEST_VARIABLE -mount=secret sausage-store)";
       - echo ${TEST_VARIABLE1}
       - export "TEST_VARIABLE2=$(vault kv get -field=TEST_VARIABLE2 -mount=secret sausage-store)";
       - echo ${TEST_VARIABLE2}
