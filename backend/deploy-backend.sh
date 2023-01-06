@@ -6,7 +6,6 @@ REPORT_PATH=/var/reports/
 SPRING_DATASOURCE_URL=jdbc:postgresql://${PSQL_HOST}:${PSQL_PORT}/${PSQL_DBNAME}
 SPRING_DATASOURCE_USERNAME=${PSQL_USER}
 SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}
-SPRING_DATA_MONGODB_URI=mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}?tls=true&replicaSet=${MONGO_REPLICA}
 EOF
 sudo usermod -aG docker $USER
 docker network create -d bridge sausage_network || true
