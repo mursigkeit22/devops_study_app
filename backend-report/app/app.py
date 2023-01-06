@@ -20,7 +20,7 @@ def home():
 
 def load_report():
     response = requests.get("https://d5dg7f2abrq3u84p3vpr.apigw.yandexcloud.net/report")
-    db.reports.insert_one(response.json())
+    db.report.insert_one(response.json())
     print("Inserted a new report to the database: " + response.text)
 
 
