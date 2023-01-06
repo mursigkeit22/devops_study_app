@@ -5,6 +5,9 @@ cache:
 
 include:
   - local: 'yml_configs/.ssh-before-script.yml'
+  - project: 'templates/ci'
+    file: 'DockerInDockerTemplate.yml'
+
 
 stages:
   - build
