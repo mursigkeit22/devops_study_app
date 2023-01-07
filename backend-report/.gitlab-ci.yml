@@ -7,7 +7,7 @@ include:
 stages:
   - build
   - release
-  #- deploy
+  - deploy
 
 build-backend-report-code-job:
   stage: build  
