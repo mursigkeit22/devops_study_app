@@ -47,6 +47,34 @@ upload-backend-report-latest:
     - docker tag $CI_REGISTRY_IMAGE/sausage-backend-report:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-backend-report:latest
     - docker push $CI_REGISTRY_IMAGE/sausage-backend-report:latest
 
+deploy-backend-report:
+  stage: deploy
+  image: vault:1.11.3
+  rules:
+    - changes:
+      - backend-report/**/*
+      when: manual
+  extends:
+    - .ssh-before-script
+  script:
+    - scp docker-compose.yml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/docker-compose.yml 
+    - export VAULT_TOKEN="$(vault write -field=token auth/jwt/login role=sausage-store jwt=$CI_JOB_JWT)"
+
+    - ssh ${DEV_USER}@${DEV_HOST} 
+      "export "CI_REGISTRY_USER=${CI_REGISTRY_USER}"; 
+       export "CI_REGISTRY_PASSWORD=${CI_REGISTRY_PASSWORD}"; 
+       export "CI_REGISTRY=${CI_REGISTRY}"; 
+       export "CI_REGISTRY_IMAGE=${CI_REGISTRY_IMAGE}"; 
+       export "MONGO_USER=$(vault kv get -field=MONGO_USER -mount=secret sausage-store)"; 
+       export "MONGO_PASSWORD=$(vault kv get -field=MONGO_PASSWORD -mount=secret sausage-store)"; 
+       export "MONGO_HOST=$(vault kv get -field=MONGO_HOST -mount=secret sausage-store)"; 
+       export "MONGO_DATABASE=$(vault kv get -field=MONGO_DATABASE -mount=secret sausage-store)"; 
+       export "MONGO_REPLICA=$(vault kv get -field=MONGO_REPLICA -mount=secret sausage-store)"; 
+       export "MONGO_PORT=$(vault kv get -field=MONGO_PORT -mount=secret sausage-store)"; 
+       setsid /bin/bash -s" < ./backend-report/deploy-backend-report.sh
+
+
+
 
 
 
