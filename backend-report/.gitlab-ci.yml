@@ -57,6 +57,7 @@ deploy-backend-report:
   extends:
     - .ssh-before-script
   script:
+    - export CI_REGISTRY=${CI_REGISTRY}
     - scp docker-compose.yml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/docker-compose.yml 
     - export VAULT_TOKEN="$(vault write -field=token auth/jwt/login role=sausage-store jwt=$CI_JOB_JWT)"
 
