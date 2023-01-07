@@ -8,14 +8,9 @@ SPRING_DATASOURCE_USERNAME=${PSQL_USER}
 SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}
 EOF
 sudo usermod -aG docker $USER
-docker network create -d bridge sausage_network || true
 docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
-docker pull ${CI_REGISTRY_IMAGE}/sausage-backend:latest
-docker stop sausage-backend || true
-docker rm sausage-backend || true
-docker run -d --name sausage-backend \
-    --network=sausage_network \
-    --restart always \
-    --pull always \
-    --env-file backend.env \
-    ${CI_REGISTRY_IMAGE}/sausage-backend:latest 
+docker-compose stop backend
+docker-compose rm -f backend
+docker-compose pull backend
+docker-compose up -d backend
+
