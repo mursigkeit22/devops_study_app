@@ -1,0 +1,31 @@
+version: "3.5"
+
+services:
+  backend:
+    image: gitlab.praktikum-services.ru:5050/std-009-052/sausage-store/sausage-backend:latest
+    container_name: sausage-backend
+    env_file:
+      - /home/serviceuser/backend.env
+    networks:
+      - sausage-store
+  backend-report:
+    image: gitlab.praktikum-services.ru:5050/std-009-052/sausage-store/sausage-backend-report:latest
+    container_name: sausage-store-backend-report
+    env_file:
+      - /home/serviceuser/backend-report.env
+    ports:
+      - "8080:8080"
+    networks:
+      - sausage-store
+  frontend:
+    image: gitlab.praktikum-services.ru:5050/std-009-052/sausage-store/sausage-frontend:latest
+    container_name: sausage-frontend
+    ports:
+      - "80:80"
+    networks:
+      - sausage-store
+
+networks:
+  sausage-store:
+    name: sausage-store
+    driver: bridge
