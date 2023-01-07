@@ -8,6 +8,7 @@ services:
       - /home/serviceuser/backend.env
     networks:
       - sausage-store
+    restart: always
   backend-report:
     image: ${CI_REGISTRY}/std-009-052/sausage-store/sausage-backend-report:latest
     container_name: sausage-store-backend-report
@@ -17,6 +18,7 @@ services:
       - "8080:8080"
     networks:
       - sausage-store
+    restart: always
   frontend:
     image: ${CI_REGISTRY}/std-009-052/sausage-store/sausage-frontend:latest
     container_name: sausage-frontend
@@ -24,6 +26,7 @@ services:
       - "80:80"
     networks:
       - sausage-store
+    restart: always
 
 networks:
   sausage-store:
