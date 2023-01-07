@@ -7,5 +7,6 @@ PORT=8080
 EOF
 sudo usermod -aG docker $USER
 docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+docker-compose rm -s -f backend-report
 docker-compose pull backend-report
 docker-compose up -d backend-report
