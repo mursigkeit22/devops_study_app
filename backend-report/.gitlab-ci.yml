@@ -58,7 +58,12 @@ deploy-context:
   script:
     - docker compose version
     - docker context create remote --docker "host=ssh://${DEV_USER}@${DEV_HOST}"
-    - docker --context remote ps
+    - docker compose --context remote stop backend-report
+    - docker compose --context remote rm -f backend-report
+    - docker compose --context remote pull backend-report
+    - docker compose --context remote up -d backend-report
+
+    
 
 # deploy-backend-report:
 #   stage: deploy
