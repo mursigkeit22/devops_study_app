@@ -51,7 +51,7 @@ deploy-context:
   before_script:
     - until docker info; do sleep 1; done
     
-    - apk add py-pip python3-dev libffi-dev openssl-dev gcc libc-dev make
+    - apk add py-pip python3-dev libffi-dev openssl-dev gcc libc-dev make rust cargo
     - pip install docker-compose
 
 
