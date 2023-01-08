@@ -55,7 +55,7 @@ deploy-context:
 
 
   script:
-    - docker-compose version
+    - docker compose version
 
 # deploy-backend-report:
 #   stage: deploy
