@@ -60,8 +60,8 @@ deploy-context:
     - docker version
     - docker context create remote --docker "host=ssh://${DEV_USER}@${DEV_HOST}"
     - docker --context remote version
-    - docker-compose --context remote version
     - docker compose --context remote version
+    - docker --context remote compose version
     
     # - docker compose --context remote stop backend-report
     # - docker compose --context remote rm -f backend-report
