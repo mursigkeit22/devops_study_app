@@ -1,5 +1,6 @@
 .ssh-before-script:
   before_script:
+    - until docker info; do sleep 1; done
     - apk add openssh-client bash
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
@@ -7,5 +8,5 @@
     - chmod 700 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-    - apk add --no-cache py-pip
-    - pip install docker-compose
+    - apk add docker-cli-compose
+    
