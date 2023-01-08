@@ -47,10 +47,10 @@ stages:
 
 deploy-context:
   stage: deploy
-  image: docker:20.10.12-dind-rootless
+  image: docker:20.10.12-dind
   before_script:
     - until docker info; do sleep 1; done
-    - sudo apk add openssh-client bash
+    - apk add openssh-client bash
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
