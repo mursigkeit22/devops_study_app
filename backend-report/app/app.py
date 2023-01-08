@@ -15,7 +15,7 @@ db = client[parsedUri['database']]
 @app.route('/health')
 @app.route('/')
 def home():
-    return jsonify("I'm alive3")
+    return jsonify("I'm alive4")
 
 
 def load_report():
