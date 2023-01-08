@@ -11,7 +11,7 @@ services:
   #   restart: always
   backend-report:
     image: ${CI_REGISTRY}/std-009-052/sausage-store/sausage-backend-report:latest
-    container_name: sausage-store-backend-report
+    container_name: sausage-backend-report
     environment:
       DB: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}?tls=true&replicaSet=${MONGO_REPLICA}&tlsCAFile=/app/YandexInternalRootCA.crt
       PORT: "8080"
