@@ -50,14 +50,8 @@ deploy-context:
   image: docker:20.10.12-dind
   before_script:
     - until docker info; do sleep 1; done
-    - apk add openssh-client bash
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
-    - apk add --no-cache py-pip
+    
+    - apk add --no-cache py-pip gcc
     - pip install docker-compose
 
 
