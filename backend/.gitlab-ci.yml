@@ -1,7 +1,7 @@
 cache:
-    key: backend
-    paths:
-      - backend/target
+  key: backend
+  paths:
+    - backend/target
 
 variables:
   JAVA_OPTS: -XX:MaxRAMPercentage=90
