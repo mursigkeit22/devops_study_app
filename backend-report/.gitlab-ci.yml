@@ -57,7 +57,7 @@ deploy-context:
 
   script:
     - docker compose version
-    - docker context create remote ‐‐docker "host=ssh://${DEV_USER}@${DEV_HOST}"
+    - docker context create remote --docker "host=ssh://${DEV_USER}@${DEV_HOST}"
     - docker context use remote
     - docker ps
 
