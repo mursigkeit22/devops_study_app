@@ -62,6 +62,7 @@ deploy-context:
     - docker --context remote version
     # - docker compose --context remote version
     - docker-compose --context remote version
+    - docker context use remote
     
     - docker-compose --context remote stop backend-report
     - docker-compose --context remote rm -f backend-report
