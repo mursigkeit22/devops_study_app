@@ -5,74 +5,82 @@ include:
 
 
 stages:
-  - build
-  - release
+  # - build
+  # - release
   - deploy
 
-build-backend-report-code-job:
-  stage: build  
-  image: docker:20.10.12-dind-rootless
-  rules:
-    - changes:
-      - backend-report/**/*
-  before_script:
-    - until docker info; do sleep 1; done
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - echo $CI_REGISTRY_USER
-    - echo $CI_REGISTRY_PASSWORD
-    - echo $CI_REGISTRY
-  script:
-    - cd backend-report
-    - >
-      docker build
-      --build-arg VERSION=$VERSION
-      --tag $CI_REGISTRY_IMAGE/sausage-backend-report:$CI_COMMIT_SHA
-      .
+# build-backend-report-code-job:
+#   stage: build  
+#   image: docker:20.10.12-dind-rootless
+#   rules:
+#     - changes:
+#       - backend-report/**/*
+#   before_script:
+#     - until docker info; do sleep 1; done
+#     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#     - echo $CI_REGISTRY_USER
+#     - echo $CI_REGISTRY_PASSWORD
+#     - echo $CI_REGISTRY
+#   script:
+#     - cd backend-report
+#     - >
+#       docker build
+#       --build-arg VERSION=$VERSION
+#       --tag $CI_REGISTRY_IMAGE/sausage-backend-report:$CI_COMMIT_SHA
+#       .
 
-    - docker push $CI_REGISTRY_IMAGE/sausage-backend-report:$CI_COMMIT_SHA
+#     - docker push $CI_REGISTRY_IMAGE/sausage-backend-report:$CI_COMMIT_SHA
 
-upload-backend-report-latest:
-  variables:
-    GIT_STRATEGY: none
-  image: docker:20.10.12-dind-rootless
-  stage: release
-  rules:
-    - changes:
-      - backend-report/**/*
-  before_script:
-    - until docker info; do sleep 1; done
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  script:
-    - docker pull $CI_REGISTRY_IMAGE/sausage-backend-report:$CI_COMMIT_SHA
-    - docker tag $CI_REGISTRY_IMAGE/sausage-backend-report:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-backend-report:latest
-    - docker push $CI_REGISTRY_IMAGE/sausage-backend-report:latest
+# upload-backend-report-latest:
+#   variables:
+#     GIT_STRATEGY: none
+#   image: docker:20.10.12-dind-rootless
+#   stage: release
+#   rules:
+#     - changes:
+#       - backend-report/**/*
+#   before_script:
+#     - until docker info; do sleep 1; done
+#     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#   script:
+#     - docker pull $CI_REGISTRY_IMAGE/sausage-backend-report:$CI_COMMIT_SHA
+#     - docker tag $CI_REGISTRY_IMAGE/sausage-backend-report:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-backend-report:latest
+#     - docker push $CI_REGISTRY_IMAGE/sausage-backend-report:latest
 
-deploy-backend-report:
+deploy-context:
   stage: deploy
-  image: vault:1.11.3
-  rules:
-    - changes:
-      - backend-report/**/*
-      when: manual
+  image: docker:20.10.12-dind-rootless
   extends:
     - .ssh-before-script
   script:
-   
-    - scp docker-compose.yml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/docker-compose.yml 
-    - export VAULT_TOKEN="$(vault write -field=token auth/jwt/login role=sausage-store jwt=$CI_JOB_JWT)"
+    - docker-compose version
 
-    - ssh ${DEV_USER}@${DEV_HOST} 
-      "export "CI_REGISTRY_USER=${CI_REGISTRY_USER}"; 
-       export "CI_REGISTRY_PASSWORD=${CI_REGISTRY_PASSWORD}"; 
-       export "CI_REGISTRY=${CI_REGISTRY}"; 
-       export "CI_REGISTRY_IMAGE=${CI_REGISTRY_IMAGE}"; 
-       export "MONGO_USER=$(vault kv get -field=MONGO_USER -mount=secret sausage-store)"; 
-       export "MONGO_PASSWORD=$(vault kv get -field=MONGO_PASSWORD -mount=secret sausage-store)"; 
-       export "MONGO_HOST=$(vault kv get -field=MONGO_HOST -mount=secret sausage-store)"; 
-       export "MONGO_DATABASE=$(vault kv get -field=MONGO_DATABASE -mount=secret sausage-store)"; 
-       export "MONGO_REPLICA=$(vault kv get -field=MONGO_REPLICA -mount=secret sausage-store)"; 
-       export "MONGO_PORT=$(vault kv get -field=MONGO_PORT -mount=secret sausage-store)"; 
-       setsid /bin/bash -s" < ./backend-report/deploy-backend-report.sh
+# deploy-backend-report:
+#   stage: deploy
+#   image: vault:1.11.3
+#   rules:
+#     - changes:
+#       - backend-report/**/*
+#       when: manual
+#   extends:
+#     - .ssh-before-script
+#   script:
+   
+#     - scp docker-compose.yml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/docker-compose.yml 
+#     - export VAULT_TOKEN="$(vault write -field=token auth/jwt/login role=sausage-store jwt=$CI_JOB_JWT)"
+
+#     - ssh ${DEV_USER}@${DEV_HOST} 
+#       "export "CI_REGISTRY_USER=${CI_REGISTRY_USER}"; 
+#        export "CI_REGISTRY_PASSWORD=${CI_REGISTRY_PASSWORD}"; 
+#        export "CI_REGISTRY=${CI_REGISTRY}"; 
+#        export "CI_REGISTRY_IMAGE=${CI_REGISTRY_IMAGE}"; 
+#        export "MONGO_USER=$(vault kv get -field=MONGO_USER -mount=secret sausage-store)"; 
+#        export "MONGO_PASSWORD=$(vault kv get -field=MONGO_PASSWORD -mount=secret sausage-store)"; 
+#        export "MONGO_HOST=$(vault kv get -field=MONGO_HOST -mount=secret sausage-store)"; 
+#        export "MONGO_DATABASE=$(vault kv get -field=MONGO_DATABASE -mount=secret sausage-store)"; 
+#        export "MONGO_REPLICA=$(vault kv get -field=MONGO_REPLICA -mount=secret sausage-store)"; 
+#        export "MONGO_PORT=$(vault kv get -field=MONGO_PORT -mount=secret sausage-store)"; 
+#        setsid /bin/bash -s" < ./backend-report/deploy-backend-report.sh
 
 
 
