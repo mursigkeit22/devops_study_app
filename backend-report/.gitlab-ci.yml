@@ -48,11 +48,12 @@ stages:
 deploy-context:
   stage: deploy
   image: docker:20.10.12-dind
-  before_script:
-    - until docker info; do sleep 1; done
-    - apk add docker-cli-compose
-    
-
+  extends:
+    - .ssh-before-script
+  rules:
+    - changes:
+      - backend-report/**/*
+      when: manual
 
   script:
     - docker compose version
