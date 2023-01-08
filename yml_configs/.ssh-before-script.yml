@@ -8,5 +8,5 @@
     - chmod 700 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-    - apk add docker-cli-compose=2.0.0-r0
+    - apk add docker-cli-compose=2.0.0
     
