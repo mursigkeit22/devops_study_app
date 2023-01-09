@@ -7,8 +7,8 @@ from flask import Flask
 
 app = Flask(__name__)
 
-client = pymongo.MongoClient(os.environ.get('DB'))
-parsedUri = pymongo.uri_parser.parse_uri(os.environ.get('DB'))
+client = pymongo.MongoClient(os.environ.get('REPORT_DB'))
+parsedUri = pymongo.uri_parser.parse_uri(os.environ.get('REPORT_DB'))
 db = client[parsedUri['database']]
 
 
