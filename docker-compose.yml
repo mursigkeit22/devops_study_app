@@ -20,6 +20,7 @@ services:
     networks:
       - sausage-store
     restart: always
+    pull_policy: always
   # frontend:
   #   image: ${CI_REGISTRY}/std-009-052/sausage-store/sausage-frontend:latest
   #   container_name: sausage-frontend
