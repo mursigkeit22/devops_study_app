@@ -13,7 +13,7 @@ services:
     image: ${CI_REGISTRY}/std-009-052/sausage-store/sausage-backend-report:latest
     container_name: sausage-backend-report
     environment:
-      DB: ${DB}
+      REPORT_DB: ${REPORT_DB}
       REPORT_PORT: ${REPORT_PORT}
     ports:
       - "8080:8080"
