@@ -60,9 +60,12 @@ secrets-backend-report:
     - export "MONGO_DATABASE=$(vault kv get -field=MONGO_DATABASE -mount=secret sausage-store)" 
     - export "MONGO_REPLICA=$(vault kv get -field=MONGO_REPLICA -mount=secret sausage-store)" 
     - export "MONGO_PORT=$(vault kv get -field=MONGO_PORT -mount=secret sausage-store)"
-    - echo "DB=mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}?tls=true&replicaSet=${MONGO_REPLICA}&tlsCAFile=/app/YandexInternalRootCA.crt" > backend-report.env
-    - cat backend-report.env
-
+    - export "REPORT_PORT=$(vault kv get -field=REPORT_PORT -mount=secret sausage-store)"
+    - echo "DB=mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}?tls=true&replicaSet=${MONGO_REPLICA}&tlsCAFile=/app/YandexInternalRootCA.crt" >> backend-report.env
+    - echo "REPORT_PORT=${REPORT_PORT}" >> backend-report.env
+  artifacts:
+    reports:
+      dotenv: backend-report.env
 
 
 deploy-backend-report:
