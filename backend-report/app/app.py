@@ -29,4 +29,4 @@ if __name__ == "__main__":
     sched.add_job(load_report, 'interval', minutes=5)
     sched.start()
     load_report()
-    app.run(host='0.0.0.0', debug=True, port=os.environ.get('PORT'), use_reloader=False)
+    app.run(host='0.0.0.0', debug=True, port=os.environ.get('REPORT_PORT'), use_reloader=False)
