@@ -69,8 +69,7 @@ secrets-backend:
     - echo "PSQL_HOST=$(vault kv get -field=PSQL_HOST -mount=secret sausage-store)" >> backend.env
     - echo "PSQL_PORT=$(vault kv get -field=PSQL_PORT -mount=secret sausage-store)" >> backend.env
     - echo "PSQL_DBNAME=$(vault kv get -field=PSQL_DBNAME -mount=secret sausage-store)" >> backend.env
-    - cat backend.env
-    
+        
   artifacts:
     reports:
       dotenv: backend.env
