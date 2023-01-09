@@ -15,7 +15,7 @@ services:
     image: ${CI_REGISTRY}/std-009-052/sausage-store/sausage-backend-report:latest
     container_name: sausage-backend-report
     environment:
-      REPORT_DB: ${REPORT_DB}
+      REPORT_DB: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}?tls=true&replicaSet=${MONGO_REPLICA}&tlsCAFile=/app/YandexInternalRootCA.crt
       REPORT_PORT: ${REPORT_PORT}
     ports:
       - "8080:8080"
