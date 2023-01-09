@@ -82,7 +82,7 @@ deploy-backend:
     - .ssh-before-script
   rules:
     - changes:
-      - backend-report/**/*
+      - backend/**/*
       when: manual
 
   script:
