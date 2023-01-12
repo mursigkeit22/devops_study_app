@@ -1,0 +1,91 @@
+include:
+  - local: 'yml_configs/.ssh-before-script.yml'
+  - project: 'templates/ci'
+    file: 'DockerInDockerTemplate.yml'
+
+
+stages:
+  - build
+  - release
+  - secrets
+  - deploy
+
+build-backend-report:
+  stage: build  
+  image: docker:20.10.12-dind-rootless
+  rules:
+    - changes:
+      - backend-report/**/*
+  before_script:
+    - until docker info; do sleep 1; done
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    
+  script:
+    - cd backend-report
+    - >
+      docker build
+      --build-arg VERSION=$VERSION
+      --tag $CI_REGISTRY_IMAGE/sausage-backend-report:$CI_COMMIT_SHA
+      .
+
+    - docker push $CI_REGISTRY_IMAGE/sausage-backend-report:$CI_COMMIT_SHA
+
+upload-backend-report-latest:
+  variables:
+    GIT_STRATEGY: none
+  image: docker:20.10.12-dind-rootless
+  stage: release
+  rules:
+    - changes:
+      - backend-report/**/*
+  before_script:
+    - until docker info; do sleep 1; done
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker pull $CI_REGISTRY_IMAGE/sausage-backend-report:$CI_COMMIT_SHA
+    - docker tag $CI_REGISTRY_IMAGE/sausage-backend-report:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-backend-report:latest
+    - docker push $CI_REGISTRY_IMAGE/sausage-backend-report:latest
+
+secrets-backend-report:
+  stage: secrets
+  image: vault:1.11.3
+  rules:
+    - changes:
+      - backend-report/**/*
+  script:
+    - export VAULT_TOKEN="$(vault write -field=token auth/jwt/login role=sausage-store jwt=$CI_JOB_JWT)"
+    - echo "MONGO_USER=$(vault kv get -field=MONGO_USER -mount=secret sausage-store)" >> backend-report.env
+    - echo "MONGO_PASSWORD=$(vault kv get -field=MONGO_PASSWORD -mount=secret sausage-store)" >> backend-report.env
+    - echo "MONGO_HOST=$(vault kv get -field=MONGO_HOST -mount=secret sausage-store)" >> backend-report.env 
+    - echo "MONGO_DATABASE=$(vault kv get -field=MONGO_DATABASE -mount=secret sausage-store)" >> backend-report.env 
+    - echo "MONGO_REPLICA=$(vault kv get -field=MONGO_REPLICA -mount=secret sausage-store)" >> backend-report.env 
+    - echo "MONGO_PORT=$(vault kv get -field=MONGO_PORT -mount=secret sausage-store)" >> backend-report.env
+    - echo "REPORT_PORT=$(vault kv get -field=REPORT_PORT -mount=secret sausage-store)" >> backend-report.env
+    
+  artifacts:
+    reports:
+      dotenv: backend-report.env
+
+
+deploy-backend-report:
+  stage: deploy
+  image: docker:20.10.12-dind
+  extends:
+    - .ssh-before-script
+  rules:
+    - changes:
+      - backend-report/**/*
+      when: manual
+
+  script:
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+    - docker context create remote --docker "host=ssh://${DEV_USER}@${DEV_HOST}"
+    - docker context use remote
+    - docker-compose --context remote stop backend-report
+    - docker-compose --context remote rm -f backend-report
+    - docker-compose --context remote pull backend-report
+    - docker-compose --context remote up -d backend-report
+
+
+
+
