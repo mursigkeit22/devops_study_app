@@ -8,13 +8,13 @@ variables:
 include:
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'
-  # - template: Security/SAST.gitlab-ci.yml
-  # - local: 'yml_configs/.backend-test.yml'
+  - template: Security/SAST.gitlab-ci.yml
+  - local: 'yml_configs/.backend-test.yml'
   - local: 'yml_configs/.ssh-before-script.yml'
  
 stages:
   - build
-  # - test
+  - test
   - release
   - secrets
   - deploy
