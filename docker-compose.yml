@@ -30,7 +30,7 @@ services:
     image: ${CI_REGISTRY}/std-009-052/sausage-store/sausage-frontend:latest
     container_name: sausage-frontend
     environment:
-      - DEFAULT_HOST: proxy
+      DEFAULT_HOST: proxy
     ports:
       - "80:80"
     networks:
