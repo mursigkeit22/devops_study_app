@@ -35,6 +35,8 @@ services:
       - "80:80"
     networks:
       - sausage-store
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
     restart: always
 
 networks:
