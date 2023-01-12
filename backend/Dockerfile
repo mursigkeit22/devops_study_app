@@ -1,5 +1,6 @@
 FROM maven:3.8.2-openjdk-16-slim as builder
 ARG VERSION=${VERSION}
+ARG REPORTGENERATOR_PATH=${REPORTGENERATOR_PATH}
 WORKDIR /usr/src/app
 COPY ./src ./src
 COPY *.xml ./
