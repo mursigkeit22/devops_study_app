@@ -33,6 +33,7 @@ build-backend-code-job:
     - >
       docker build
       --build-arg VERSION=$VERSION
+      --build-arg REPORTGENERATOR_PATH=$REPORTGENERATOR_PATH
       --tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
       .
       
