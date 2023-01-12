@@ -7,12 +7,12 @@ include:
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'
   - local: 'yml_configs/.ssh-before-script.yml'
-  # - template: Security/SAST.gitlab-ci.yml
-  # - local: 'yml_configs/.frontend-test.yml'
+  - template: Security/SAST.gitlab-ci.yml
+  - local: 'yml_configs/.frontend-test.yml'
  
 stages:
    - build
-  #  - test
+   - test
    - release
    - deploy
 
