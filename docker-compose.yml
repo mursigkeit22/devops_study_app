@@ -4,11 +4,11 @@ services:
   backend:
     image: ${CI_REGISTRY}/std-009-052/sausage-store/sausage-backend:latest
     environment:
-      - SPRING_DATASOURCE_URL: jdbc:postgresql://${PSQL_HOST}:${PSQL_PORT}/${PSQL_DBNAME}
-      - SPRING_DATASOURCE_USERNAME: ${PSQL_USER}
-      - SPRING_DATASOURCE_PASSWORD: ${PSQL_PASSWORD}
-      - REPORT_PATH: ${REPORTGENERATOR_PATH}
-      - VIRTUAL_HOST: proxy
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${PSQL_HOST}:${PSQL_PORT}/${PSQL_DBNAME}
+      SPRING_DATASOURCE_USERNAME: ${PSQL_USER}
+      SPRING_DATASOURCE_PASSWORD: ${PSQL_PASSWORD}
+      REPORT_PATH: ${REPORTGENERATOR_PATH}
+      VIRTUAL_HOST: proxy
     networks:
       - sausage-store
     restart: always
