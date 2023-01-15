@@ -33,6 +33,7 @@ build-backend-code-job:
     - >
       docker build
       --build-arg VERSION=$VERSION
+      --build-arg REPORTGENERATOR_PATH=$REPORTGENERATOR_PATH
       --tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
       .
       
@@ -90,7 +91,7 @@ deploy-backend:
     - docker-compose --context remote stop backend
     - docker-compose --context remote rm -f backend
     - docker-compose --context remote pull backend
-    - docker-compose --context remote up -d backend
+    - docker-compose --context remote up -d --scale backend=3 backend
 
 
    
