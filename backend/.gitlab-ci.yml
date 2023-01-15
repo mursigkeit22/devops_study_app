@@ -91,7 +91,7 @@ deploy-backend:
     - docker-compose --context remote stop backend
     - docker-compose --context remote rm -f backend
     - docker-compose --context remote pull backend
-    - docker-compose --context remote up -d --scale backend=3 backend
+    - docker-compose --context remote up -d backend
 
 
    
