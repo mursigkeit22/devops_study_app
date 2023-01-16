@@ -88,10 +88,15 @@ deploy-backend:
     - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
     - docker context create remote --docker "host=ssh://${DEV_USER}@${DEV_HOST}"
     - docker context use remote
-    - docker-compose --context remote stop backend
-    - docker-compose --context remote rm -f backend
-    - docker-compose --context remote pull backend
-    - docker-compose --context remote up -d backend
+    - docker-compose --context remote stop backend-blue
+    - docker-compose --context remote rm -f backend-blue
+    - docker-compose --context remote pull backend-blue
+    - docker-compose --context remote up -d backend-blue
+    - docker-compose --context remote stop backend-green
+    - docker-compose --context remote rm -f backend-green
+    - docker-compose --context remote pull backend-green
+    - docker-compose --context remote up -d backend-green
+
 
 
    
