@@ -91,13 +91,14 @@ deploy-backend:
     - export ACTIVE="$(docker --context remote container ls -n=1 --format "{{.Names}}" --filter health=healthy)"
     - echo $ACTIVE
     - >
-        if ["${ACTIVE}" = "green"]; then
+        if ["$ACTIVE" = "green"]; then
           export OLD="backend-green";
           export NEW="backend-blue"
         else
           export OLD="backend-blue";
           export NEW="backend-green"
         fi
+
     - echo $OLD
     - echo $NEW
     - docker --context remote container ls -n=1 --format "{{.Names}}" --filter health=healthy --filter "name=backend"
