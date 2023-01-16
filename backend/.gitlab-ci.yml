@@ -101,7 +101,6 @@ deploy-backend:
 
     - echo $OLD
     - echo $NEW
-    - docker --context remote container ls -n=1 --format "{{.Names}}" --filter health=healthy --filter "name=backend"
     - docker-compose --context remote stop backend-blue
     - docker-compose --context remote rm -f backend-blue
     - docker-compose --context remote pull backend-blue
