@@ -3,7 +3,7 @@ version: "3.5"
 services:
   backend-blue:
     image: ${CI_REGISTRY}/std-009-052/sausage-store/sausage-backend:latest
-    container_name: sausage-backend-blue
+    container_name: blue
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${PSQL_HOST}:${PSQL_PORT}/${PSQL_DBNAME}
       SPRING_DATASOURCE_USERNAME: ${PSQL_USER}
@@ -23,7 +23,7 @@ services:
       retries: 6 
   backend-green:
       image: ${CI_REGISTRY}/std-009-052/sausage-store/sausage-backend:latest
-      container_name: sausage-backend-green
+      container_name: green
       environment:
         SPRING_DATASOURCE_URL: jdbc:postgresql://${PSQL_HOST}:${PSQL_PORT}/${PSQL_DBNAME}
         SPRING_DATASOURCE_USERNAME: ${PSQL_USER}
