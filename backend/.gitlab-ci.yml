@@ -88,7 +88,7 @@ deploy-backend:
     - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
     - docker context create remote --docker "host=ssh://${DEV_USER}@${DEV_HOST}"
     - docker context use remote
-    - export ACTIVE=$(docker --context remote container ls -n=1 --format "{{.Names}}" --filter health=healthy --filter "name=backend")
+    - export ACTIVE="$(docker --context remote container ls -n=1 --format "{{.Names}}" --filter health=healthy --filter "name=backend")"
     - echo $ACTIVE
     - docker --context remote container ls -n=1 --format "{{.Names}}" --filter health=healthy --filter "name=backend"
     - docker-compose --context remote stop backend-blue
