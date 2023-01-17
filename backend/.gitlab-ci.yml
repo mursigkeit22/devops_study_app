@@ -101,14 +101,13 @@ deploy-backend:
 
     - echo $OLD
     - echo $NEW
-    - docker-compose --context remote stop backend-blue
-    - docker-compose --context remote rm -f backend-blue
-    - docker-compose --context remote pull backend-blue
-    - docker-compose --context remote up -d backend-blue
-    - docker-compose --context remote stop backend-green
-    - docker-compose --context remote rm -f backend-green
-    - docker-compose --context remote pull backend-green
-    - docker-compose --context remote up -d backend-green
+    - docker-compose --context remote stop $NEW
+    - docker-compose --context remote rm -f $NEW
+    - docker-compose --context remote pull $NEW
+    - docker-compose --context remote up -d $NEW
+    - docker-compose --context remote stop $OLD
+    - docker-compose --context remote rm -f $OLD
+    
 
 
 
