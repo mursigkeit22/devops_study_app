@@ -13,9 +13,9 @@ include:
   - local: 'yml_configs/.ssh-before-script.yml'
  
 stages:
-  #- build
+  - build
   #- test
-  #- release
+  - release
   - secrets
   - deploy
 
