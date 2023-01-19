@@ -105,17 +105,18 @@ deploy-backend:
     - docker-compose --context remote rm -f backend-$NEW
     - docker-compose --context remote pull backend-$NEW
     - docker-compose --context remote up -d backend-$NEW
-    - echo Waiting 20 seconds for $NEW container to start
-    - sleep 20
+    - echo Waiting 60 seconds for $NEW container to start
+    - sleep 60
+    - export MAX_TRY=4
     - |
-      for i in $(seq 1 6)
+      for i in $(seq 1 $MAX_TRY)
         do
           echo $i
-          if [ "$i" = 6 ]; then
+          if [ "$i" = "$MAX_TRY" ]; then
               echo Container $NEW is unhealthy
               exit 1
           fi
-          export HEALTHY="$(docker --context remote container ls --format "{{.Names}}" --filter name=hop --filter health=healthy)"
+          export HEALTHY="$(docker --context remote container ls --format "{{.Names}}" --filter name=$NEW --filter health=healthy)"
           echo $HEALTHY
           if [ ! -z "$HEALTHY" ]; then
               echo Stopping container $OLD
@@ -123,8 +124,8 @@ deploy-backend:
               docker-compose --context remote rm -f backend-$OLD
               break
           else
-            echo Waiting 40 seconds before next healthy check
-            sleep 4
+            echo Waiting 30 seconds before next healthy check
+            sleep 30
           fi
         done
       
