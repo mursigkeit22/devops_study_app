@@ -110,8 +110,8 @@ deploy-backend:
     - |
       for i in {1..6}
         do
-          if
-            (( i==6 )); then
+          echo i
+          if (( i == 6 )); then
               echo Container $NEW is unhealthy
               exit 1
           fi
