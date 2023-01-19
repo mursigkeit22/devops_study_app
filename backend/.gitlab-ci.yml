@@ -116,6 +116,7 @@ deploy-backend:
               exit 1
           fi
           export HEALTHY="$(docker --context remote container ls --format "{{.Names}}" --filter name=$NEW --filter health=healthy)"
+          echo $HEALTHY
           if [ ! -z "$HEALTHY" ]; then
               echo Stopping container $OLD
               docker-compose --context remote stop backend-$OLD
