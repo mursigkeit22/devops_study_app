@@ -121,7 +121,6 @@ deploy-backend:
               docker-compose --context remote stop backend-$OLD
               docker-compose --context remote rm -f backend-$OLD
               break
-
           else
             echo Waiting 40 seconds before next healthy check
             sleep 40
