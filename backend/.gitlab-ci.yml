@@ -13,48 +13,48 @@ include:
   - local: 'yml_configs/.ssh-before-script.yml'
  
 stages:
-  - build
+  #- build
   #- test
-  - release
+  #- release
   - secrets
   - deploy
 
-build-backend-code-job:
-  stage: build  
-  image: docker:20.10.12-dind-rootless
-  rules:
-    - changes:
-      - backend/**/*
-  before_script:
-    - until docker info; do sleep 1; done
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  script:
-    - cd backend
-    - >
-      docker build
-      --build-arg VERSION=$VERSION
-      --build-arg REPORTGENERATOR_PATH=$REPORTGENERATOR_PATH
-      --tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
-      .
+# build-backend-code-job:
+#   stage: build  
+#   image: docker:20.10.12-dind-rootless
+#   rules:
+#     - changes:
+#       - backend/**/*
+#   before_script:
+#     - until docker info; do sleep 1; done
+#     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#   script:
+#     - cd backend
+#     - >
+#       docker build
+#       --build-arg VERSION=$VERSION
+#       --build-arg REPORTGENERATOR_PATH=$REPORTGENERATOR_PATH
+#       --tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
+#       .
       
-    - docker push $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
+#     - docker push $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
     
 
-upload-backend-latest:
-  variables:
-    GIT_STRATEGY: none
-  image: docker:20.10.12-dind-rootless
-  stage: release
-  rules:
-    - changes:
-      - backend/**/*
-  before_script:
-    - until docker info; do sleep 1; done
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  script:
-    - docker pull $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
-    - docker tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-backend:latest
-    - docker push $CI_REGISTRY_IMAGE/sausage-backend:latest
+# upload-backend-latest:
+#   variables:
+#     GIT_STRATEGY: none
+#   image: docker:20.10.12-dind-rootless
+#   stage: release
+#   rules:
+#     - changes:
+#       - backend/**/*
+#   before_script:
+#     - until docker info; do sleep 1; done
+#     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#   script:
+#     - docker pull $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
+#     - docker tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-backend:latest
+#     - docker push $CI_REGISTRY_IMAGE/sausage-backend:latest
 
 
 secrets-backend:
@@ -92,23 +92,42 @@ deploy-backend:
     - echo $ACTIVE
     - |
       if [ "$ACTIVE" = "green" ]; then
-          export OLD="backend-green"
-          export NEW="backend-blue"
+          export OLD="green"
+          export NEW="blue"
         else
-          export OLD="backend-blue"
-          export NEW="backend-green"
+          export OLD="blue"
+          export NEW="green"
         fi
 
     - echo $OLD
     - echo $NEW
-    - docker-compose --context remote stop $NEW
-    - docker-compose --context remote rm -f $NEW
-    - docker-compose --context remote pull $NEW
-    - docker-compose --context remote up -d $NEW
-    - docker-compose --context remote stop $OLD
-    - docker-compose --context remote rm -f $OLD
-    
+    - docker-compose --context remote stop backend-$NEW
+    - docker-compose --context remote rm -f backend-$NEW
+    - docker-compose --context remote pull backend-$NEW
+    - docker-compose --context remote up -d backend-$NEW
+    - echo Waiting 20 seconds for $NEW container to start
+    - sleep 20
+    - |
+      for i in {1..6}
+        do
+          if
+            (( i==6 )); then
+              echo Container $NEW is unhealthy
+              exit 1
+          fi
+          export HEALTHY="$(docker --context remote container ls --format "{{.Names}}" --filter name=$NEW --filter health=healthy)"
+          if [ ! -z "$HEALTHY" ]; then
+              echo Stopping container $OLD
+              docker-compose --context remote stop backend-$OLD
+              docker-compose --context remote rm -f backend-$OLD
+              break
 
+          else
+            echo Waiting 40 seconds before next healthy check
+            sleep 40
+          fi
+        done
+      
 
 
    
