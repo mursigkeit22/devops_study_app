@@ -115,7 +115,7 @@ deploy-backend:
               echo Container $NEW is unhealthy
               exit 1
           fi
-          export HEALTHY="$(docker --context remote container ls --format "{{.Names}}" --filter name=$NEW --filter health=healthy)"
+          export HEALTHY="$(docker --context remote container ls --format "{{.Names}}" --filter name=hop --filter health=healthy)"
           echo $HEALTHY
           if [ ! -z "$HEALTHY" ]; then
               echo Stopping container $OLD
@@ -124,7 +124,7 @@ deploy-backend:
               break
           else
             echo Waiting 40 seconds before next healthy check
-            sleep 40
+            sleep 4
           fi
         done
       
