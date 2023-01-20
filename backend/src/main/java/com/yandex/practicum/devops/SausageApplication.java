@@ -19,11 +19,11 @@ public class SausageApplication {
     @Bean
     CommandLineRunner runner(ProductService productService) {
         return args -> {
-            productService.save(new Product(1L, "Сливочна", 320.00, "https://storage.yandexcloud.net/10-valerie-shelgunova/6.jpg"));
+            productService.save(new Product(1L, "Сливочная", 320.00, "https://storage.yandexcloud.net/10-valerie-shelgunova/6.jpg"));
             productService.save(new Product(2L, "Особая", 179.00, "https://storage.yandexcloud.net/10-valerie-shelgunova/5.jpg"));
             productService.save(new Product(3L, "Молочная", 225.00, "https://storage.yandexcloud.net/10-valerie-shelgunova/4.jpg"));
             productService.save(new Product(4L, "Нюренбергская", 315.00, "https://storage.yandexcloud.net/10-valerie-shelgunova/3.jpg"));
-            productService.save(new Product(5L, "Мюнхенская", 330.00, "https://storage.yandexcloud.net/10-valerie-shelgunova/2.jpg"));
+            productService.save(new Product(5L, "Мюнхенска", 330.00, "https://storage.yandexcloud.net/10-valerie-shelgunova/2.jpg"));
             productService.save(new Product(6L, "Американская", 189.00, "https://storage.yandexcloud.net/10-valerie-shelgunova/1.jpg"));
 
         };

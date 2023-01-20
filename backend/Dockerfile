@@ -17,6 +17,7 @@ RUN keytool -importcert -file YandexInternalRootCA.crt \
     && addgroup --system jaruser \
     && adduser -S -s /bin/false -G jaruser jaruser -D -H \
     && apk add --no-cache dumb-init==1.2.5-r0 \
+    && apk add curl \
     && mkdir -p ${REPORTGENERATOR_PATH} \
     && chmod -R 777 ${REPORTGENERATOR_PATH}
 COPY --chown=jaruser:jaruser \
