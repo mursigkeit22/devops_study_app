@@ -22,14 +22,14 @@ stages:
 #   rules:
 #     - changes:  
 #       - backend-report/**/*
-# frontend:
-#   stage: module-pipelines
-#   trigger:
-#     include:
-#       - "/frontend/.gitlab-ci.yml"
-#     strategy: depend 
-#   rules:
-#     - changes: 
-#       - frontend/**/*
+frontend:
+  stage: module-pipelines
+  trigger:
+    include:
+      - "/frontend/.gitlab-ci.yml"
+    strategy: depend 
+  rules:
+    - changes: 
+      - frontend/**/*
 
 
