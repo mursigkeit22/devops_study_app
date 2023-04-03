@@ -3,12 +3,24 @@ import os
 import requests
 import pymongo
 from apscheduler.schedulers.background import BackgroundScheduler
-from flask import Flask
+import hvac
+
 
 app = Flask(__name__)
 
-client = pymongo.MongoClient(os.environ.get('REPORT_DB'))
-parsedUri = pymongo.uri_parser.parse_uri(os.environ.get('REPORT_DB'))
+vault_token = os.environ.get('VAULT_TOKEN')
+vault_url = os.environ.get('VAULT_URL')
+
+vault_client = hvac.Client(
+    url=vault_url,
+    token=vault_token,
+)
+
+read_response = client.secrets.kv.read_secret_version(path='/spring')
+mongo_uri = read_response['data']['data']['spring.data.mongodb.uri']
+
+client = pymongo.MongoClient(mongo_uri)
+parsedUri = pymongo.uri_parser.parse_uri(mongo_uri)
 db = client[parsedUri['database']]
 
 
