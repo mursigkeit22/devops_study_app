@@ -38,7 +38,7 @@ def load_report():
 
 if __name__ == "__main__":
     sched = BackgroundScheduler(daemon=True)
-    sched.add_job(load_report, 'interval', minutes=1)
+    sched.add_job(load_report, 'interval', minutes=5)
     sched.start()
     load_report()
     app.run(host='0.0.0.0', debug=True, port=os.environ.get('REPORT_PORT'), use_reloader=False)
