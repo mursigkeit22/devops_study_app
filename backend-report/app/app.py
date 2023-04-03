@@ -16,7 +16,7 @@ vault_client = hvac.Client(
     token=vault_token,
 )
 
-read_response = client.secrets.kv.read_secret_version(path='/spring')
+read_response = vault_client.secrets.kv.read_secret_version(path='/spring')
 mongo_uri = read_response['data']['data']['spring.data.mongodb.uri']
 
 client = pymongo.MongoClient(mongo_uri)
