@@ -14,7 +14,6 @@ stages:
    - build
    #- test
    - release
-   #- deploy
 
 build-frontend-code-job:
   stage: build 
