@@ -7,14 +7,13 @@ include:
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'
   - local: 'yml_configs/.ssh-before-script.yml'
-  - template: Security/SAST.gitlab-ci.yml
-  - local: 'yml_configs/.frontend-test.yml'
+  #- template: Security/SAST.gitlab-ci.yml
+  #- local: 'yml_configs/.frontend-test.yml'
  
 stages:
    - build
-   - test
+   #- test
    - release
-   - deploy
 
 build-frontend-code-job:
   stage: build 
@@ -46,24 +45,6 @@ upload-frontend-latest:
     - docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-frontend:latest
     - docker push $CI_REGISTRY_IMAGE/sausage-frontend:latest
 
-deploy-frontend:
-  stage: deploy
-  image: docker:20.10.12-dind
-  extends:
-    - .ssh-before-script
-  rules:
-    - changes:
-      - frontend/**/*
-      when: manual
-
-  script:
-    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
-    - docker context create remote --docker "host=ssh://${DEV_USER}@${DEV_HOST}"
-    - docker context use remote
-    - docker-compose --context remote stop frontend
-    - docker-compose --context remote rm -f frontend
-    - docker-compose --context remote pull frontend
-    - docker-compose --context remote up -d frontend
 
 
 

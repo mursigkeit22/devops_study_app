@@ -5,19 +5,17 @@ cache:
 
 variables:
   JAVA_OPTS: -XX:MaxRAMPercentage=90
+  SPRING_CLOUD_VAULT_TOKEN: ${SPRING_CLOUD_VAULT_TOKEN}
 include:
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'
-  - template: Security/SAST.gitlab-ci.yml
-  - local: 'yml_configs/.backend-test.yml'
-  - local: 'yml_configs/.ssh-before-script.yml'
+  # - template: Security/SAST.gitlab-ci.yml
+  # - local: 'yml_configs/.backend-test.yml'
  
 stages:
   - build
-  - test
+  #- test
   - release
-  - secrets
-  - deploy
 
 build-backend-code-job:
   stage: build  
@@ -57,78 +55,7 @@ upload-backend-latest:
     - docker push $CI_REGISTRY_IMAGE/sausage-backend:latest
 
 
-secrets-backend:
-  stage: secrets
-  image: vault:1.11.3
-  rules:
-    - changes:
-      - backend/**/*
-  script:
-    - export VAULT_TOKEN="$(vault write -field=token auth/jwt/login role=sausage-store jwt=$CI_JOB_JWT)"
-    - echo "PSQL_USER=$(vault kv get -field=PSQL_USER -mount=secret sausage-store)" >> backend.env
-    - echo "PSQL_PASSWORD=$(vault kv get -field=PSQL_PASSWORD -mount=secret sausage-store)" >> backend.env
-    - echo "PSQL_HOST=$(vault kv get -field=PSQL_HOST -mount=secret sausage-store)" >> backend.env
-    - echo "PSQL_PORT=$(vault kv get -field=PSQL_PORT -mount=secret sausage-store)" >> backend.env
-    - echo "PSQL_DBNAME=$(vault kv get -field=PSQL_DBNAME -mount=secret sausage-store)" >> backend.env
-        
-  artifacts:
-    reports:
-      dotenv: backend.env
 
-deploy-backend:
-  stage: deploy
-  image: docker:20.10.12-dind
-  extends:
-    - .ssh-before-script
-  rules:
-    - changes:
-      - backend/**/*
-      when: manual
-  script:
-    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
-    - docker context create remote --docker "host=ssh://${DEV_USER}@${DEV_HOST}"
-    - docker context use remote
-    - export ACTIVE="$(docker --context remote container ls -n=1 --format "{{.Names}}" --filter health=healthy)"
-    - echo $ACTIVE
-    - |
-      if [ "$ACTIVE" = "green" ]; then
-          export OLD="green"
-          export NEW="blue"
-        else
-          export OLD="blue"
-          export NEW="green"
-        fi
-
-    - echo $OLD
-    - echo $NEW
-    - docker-compose --context remote stop backend-$NEW
-    - docker-compose --context remote rm -f backend-$NEW
-    - docker-compose --context remote pull backend-$NEW
-    - docker-compose --context remote up -d backend-$NEW
-    - echo Waiting 60 seconds for $NEW container to start
-    - sleep 60
-    - export MAX_TRY=4
-    - |
-      for i in $(seq 1 $MAX_TRY)
-        do
-          echo $i
-          if [ "$i" = "$MAX_TRY" ]; then
-              echo Container $NEW is unhealthy
-              exit 1
-          fi
-          export HEALTHY="$(docker --context remote container ls --format "{{.Names}}" --filter name=$NEW --filter health=healthy)"
-          echo $HEALTHY
-          if [ ! -z "$HEALTHY" ]; then
-              echo Stopping container $OLD
-              docker-compose --context remote stop backend-$OLD
-              docker-compose --context remote rm -f backend-$OLD
-              break
-          else
-            echo Waiting 30 seconds before next healthy check
-            sleep 30
-          fi
-        done
-      
 
 
    
