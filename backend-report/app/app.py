@@ -10,6 +10,7 @@ app = Flask(__name__)
 
 vault_token = os.environ.get('VAULT_TOKEN')
 vault_url = os.environ.get('VAULT_URL')
+vault_path = os.environ.get('VAULT_PATH')
 
 vault_client = hvac.Client(
     url=vault_url,
